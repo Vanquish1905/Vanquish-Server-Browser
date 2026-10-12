@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "name": "My Server List",
+  "updated": "2026-10-12",
+  "servers": [
+    {
+      "id": "hypixel",
+      "name": "Hypixel",
+      "ip": "mc.hypixel.net",
+      "category": "Minigames",
+      "description": "Huge minigame network: SkyBlock, Bed Wars, SkyWars and more.",
+      "website": "https://hypixel.net"
+    },
+    {
+      "id": "wynncraft",
+      "name": "Wynncraft",
+      "ip": "play.wynncraft.com",
+      "category": "RPG",
+      "description": "Massive custom RPG MMO built on Minecraft.",
+      "website": "https://wynncraft.com"
+    },
+    {
+      "id": "cubecraft",
+      "name": "CubeCraft",
+      "ip": "play.cubecraft.net",
+      "category": "Minigames",
+      "description": "Minigame network: Eggwars, Skywars and more.",
+      "website": "https://www.cubecraft.net"
+    },
+    {
+      "id": "my-survival",
+      "name": "My Survival Server",
+      "ip": "survival.example.com:25570",
+      "category": "Survival",
+      "description": "Example of an entry with a custom port. Replace or delete this one.",
+      "website": "https://example.com"
+    }
+  ]
+}

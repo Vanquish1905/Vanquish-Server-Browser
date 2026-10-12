@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "serverbrowser",
+  "version": "${version}",
+  "name": "Server Browser",
+  "description": "Adds a Browse Servers button to the Multiplayer screen. See live player counts and add a server to your list with one click.",
+  "authors": [],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.serverbrowser.ServerBrowserClient"
+    ],
+    "modmenu": [
+      "com.serverbrowser.ModMenuIntegration"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}
