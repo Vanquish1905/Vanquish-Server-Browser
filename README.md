@@ -1,4 +1,4 @@
-# Vanquish-s-Server-Browser
+# Vanquish's-Server-Browser
 This is a WIP minecraft mod with what you can browse servers in mutliplayertab
 
 
