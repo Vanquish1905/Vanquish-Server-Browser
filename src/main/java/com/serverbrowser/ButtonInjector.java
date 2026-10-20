@@ -6,7 +6,6 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
-import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +53,7 @@ final class ButtonInjector {
 		}
 
 		Button button = Button.builder(
-				Component.translatable("serverbrowser.button.browse"),
+				Lang.tr("serverbrowser.button.browse"),
 				b -> Nav.open(client, new BrowserScreen(multiplayer))
 		).bounds(x, y, bw, bh).build();
 		MINE.add(button);

@@ -14,6 +14,7 @@ public class ServerBrowserClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		ModConfig.load();
+		Lang.load();
 		Favorites.load();
 		ScreenEvents.AFTER_INIT.register(ButtonInjector::onScreenInit);
 		LOGGER.info("Server Browser loaded (game {}, protocol {})", GameInfo.gameVersion(), GameInfo.protocol());

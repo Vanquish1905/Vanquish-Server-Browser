@@ -19,7 +19,10 @@ public final class ModConfig {
 	public int cacheMinutes = 30;
 	public int pingTimeoutMs = 3000;
 	public int maxConcurrentPings = 8;
-	public boolean hideEmptyByDefault = false;
+	/** Hide servers that did not answer the ping. On by default. */
+	public boolean hideOfflineByDefault = true;
+	/** "auto" follows Minecraft's language; otherwise a language pack code such as de_de. */
+	public String language = "auto";
 	public int pageSize = 10;
 	public int pingCacheSeconds = 60;
 
@@ -75,6 +78,7 @@ public final class ModConfig {
 		cacheMinutes = Math.max(1, Math.min(1440, cacheMinutes));
 		pingTimeoutMs = Math.max(500, Math.min(15000, pingTimeoutMs));
 		maxConcurrentPings = Math.max(1, Math.min(32, maxConcurrentPings));
+		language = (language == null || language.isBlank()) ? "auto" : language.trim().toLowerCase(java.util.Locale.ROOT);
 		pageSize = Math.max(3, Math.min(50, pageSize));
 		pingCacheSeconds = Math.max(10, Math.min(3600, pingCacheSeconds));
 	}

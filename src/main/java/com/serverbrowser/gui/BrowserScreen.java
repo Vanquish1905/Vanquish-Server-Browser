@@ -1,6 +1,7 @@
 package com.serverbrowser.gui;
 
 import com.serverbrowser.GameInfo;
+import com.serverbrowser.Lang;
 import com.serverbrowser.Nav;
 import com.serverbrowser.config.Favorites;
 import com.serverbrowser.config.ModConfig;
@@ -46,7 +47,7 @@ public class BrowserScreen extends Screen {
 	private final List<String> categories = new ArrayList<>();
 	private String category = ALL;
 	private Sort sort = Sort.ORDER;
-	private boolean hideEmpty = ModConfig.get().hideEmptyByDefault;
+	private boolean hideOffline = ModConfig.get().hideOfflineByDefault;
 	private boolean favOnly;
 	private boolean compatOnly;
 	private String searchText = "";
@@ -59,6 +60,7 @@ public class BrowserScreen extends Screen {
 	private int pendingCount;
 	private int staticTotal;
 	private boolean needAll;
+	private int addW = 38;
 	private Button categoryBtn, sortBtn, hideBtn, favBtn, compatBtn, prevBtn, nextBtn;
 
 	private double scroll;
@@ -78,11 +80,11 @@ public class BrowserScreen extends Screen {
 	private ServerPinger.Batch batch = new ServerPinger.Batch();
 
 	public BrowserScreen(Screen parent) {
-		super(Component.translatable("serverbrowser.screen.title"));
+		super(Lang.tr("serverbrowser.screen.title"));
 		this.parent = parent;
 	}
 
-
+	// ------------------------------------------------------------------ setup
 
 	@Override
 	protected void init() {
@@ -91,8 +93,8 @@ public class BrowserScreen extends Screen {
 		listTop = 74;
 		listBottom = this.height - 46;
 
-		search = new EditBox(this.font, rowLeft, 22, Math.max(80, rowWidth - 130), 20, Component.translatable("serverbrowser.search"));
-		search.setHint(Component.translatable("serverbrowser.search.hint"));
+		search = new EditBox(this.font, rowLeft, 22, Math.max(80, rowWidth - 130), 20, Lang.tr("serverbrowser.search"));
+		search.setHint(Lang.tr("serverbrowser.search.hint"));
 		search.setMaxLength(64);
 		search.setValue(searchText);
 		search.setResponder(s -> {
@@ -102,9 +104,9 @@ public class BrowserScreen extends Screen {
 		this.addRenderableWidget(search);
 
 		int right = rowLeft + rowWidth;
-		this.addRenderableWidget(Button.builder(Component.translatable("serverbrowser.button.refresh"), b -> reload(true))
+		this.addRenderableWidget(Button.builder(Lang.tr("serverbrowser.button.refresh"), b -> reload(true))
 				.bounds(right - 124, 22, 60, 20).build());
-		this.addRenderableWidget(Button.builder(Component.translatable("serverbrowser.button.settings"),
+		this.addRenderableWidget(Button.builder(Lang.tr("serverbrowser.button.settings"),
 						b -> Nav.open(this.minecraft, new ConfigScreen(this)))
 				.bounds(right - 60, 22, 60, 20).build());
 
@@ -116,7 +118,7 @@ public class BrowserScreen extends Screen {
 			resetView();
 		}).bounds(rowLeft + (bw + 4), 46, bw, 20).build());
 		hideBtn = this.addRenderableWidget(Button.builder(Component.empty(), b -> {
-			hideEmpty = !hideEmpty;
+			hideOffline = !hideOffline;
 			resetView();
 		}).bounds(rowLeft + 2 * (bw + 4), 46, bw, 20).build());
 		favBtn = this.addRenderableWidget(Button.builder(Component.empty(), b -> {
@@ -129,12 +131,17 @@ public class BrowserScreen extends Screen {
 		}).bounds(rowLeft + 4 * (bw + 4), 46, bw, 20).build());
 
 		int cx = this.width / 2;
-		prevBtn = this.addRenderableWidget(Button.builder(Component.translatable("serverbrowser.button.prev"), b -> goToPage(page - 1))
+		prevBtn = this.addRenderableWidget(Button.builder(Lang.tr("serverbrowser.button.prev"), b -> goToPage(page - 1))
 				.bounds(cx - 144, this.height - 26, 80, 20).build());
-		this.addRenderableWidget(Button.builder(Component.translatable("gui.done"), b -> onClose())
+		this.addRenderableWidget(Button.builder(Lang.tr("serverbrowser.button.done"), b -> onClose())
 				.bounds(cx - 60, this.height - 26, 120, 20).build());
-		nextBtn = this.addRenderableWidget(Button.builder(Component.translatable("serverbrowser.button.next"), b -> goToPage(page + 1))
+		nextBtn = this.addRenderableWidget(Button.builder(Lang.tr("serverbrowser.button.next"), b -> goToPage(page + 1))
 				.bounds(cx + 64, this.height - 26, 80, 20).build());
+
+		// The Add button is as wide as its longest label ("Add" / "Added") in the current language.
+		addW = Math.max(38, Math.max(
+				this.font.width(Lang.tr("serverbrowser.row.add")),
+				this.font.width(Lang.tr("serverbrowser.row.added"))) + 12);
 
 		// One Add button and one star button per row on a page. They are real buttons, positioned each frame.
 		int rows = Math.max(1, ModConfig.get().pageSize);
@@ -142,8 +149,8 @@ public class BrowserScreen extends Screen {
 		starBtns = new Button[rows];
 		for (int i = 0; i < rows; i++) {
 			final int idx = i;
-			addBtns[i] = this.addWidget(Button.builder(Component.translatable("serverbrowser.row.add"), b -> addServer(rowEntry(idx)))
-					.bounds(0, 0, 38, 20).build());
+			addBtns[i] = this.addWidget(Button.builder(Lang.tr("serverbrowser.row.add"), b -> addServer(rowEntry(idx)))
+					.bounds(0, 0, addW, 20).build());
 			starBtns[i] = this.addWidget(Button.builder(Component.literal("\u2606"), b -> toggleFavorite(rowEntry(idx)))
 					.bounds(0, 0, 20, 20).build());
 			addBtns[i].visible = false;
@@ -164,14 +171,14 @@ public class BrowserScreen extends Screen {
 	private void reload(boolean force) {
 		resetBatch();
 		loading = true;
-		setStatus(Component.translatable("serverbrowser.status.loading"), 0xFFAAAAAA);
+		setStatus(Lang.tr("serverbrowser.status.loading"), 0xFFAAAAAA);
 		CompletableFuture
 				.supplyAsync(() -> ServerListFetcher.load(force))
 				.thenAccept(result -> this.minecraft.execute(() -> onLoaded(result)))
 				.exceptionally(ex -> {
 					this.minecraft.execute(() -> {
 						loading = false;
-						setStatus(Component.translatable("serverbrowser.status.load_failed"), 0xFFFF5555);
+						setStatus(Lang.tr("serverbrowser.status.load_failed"), 0xFFFF5555);
 					});
 					return null;
 				});
@@ -199,14 +206,15 @@ public class BrowserScreen extends Screen {
 			default -> "serverbrowser.source.bundled";
 		};
 		if (result.source() == ServerListFetcher.Source.BUNDLED && !ModConfig.get().isListUrlConfigured()) {
-			setStatus(Component.translatable("serverbrowser.status.no_url"), 0xFFFFFF55);
+			setStatus(Lang.tr("serverbrowser.status.no_url"), 0xFFFFFF55);
 		} else {
-			setStatus(Component.translatable("serverbrowser.status.loaded", all.size(), Component.translatable(sourceKey)), 0xFFAAAAAA);
+			setStatus(Lang.tr("serverbrowser.status.loaded", all.size(), Lang.tr(sourceKey)), 0xFFAAAAAA);
 		}
 		updateLabels();
 		resetView();
 	}
 
+	// ------------------------------------------------------------------ filters & paging
 
 	private void resetBatch() {
 		batch.cancel();
@@ -239,18 +247,25 @@ public class BrowserScreen extends Screen {
 	}
 
 	private static Component onOff(boolean b) {
-		return Component.translatable(b ? "serverbrowser.on" : "serverbrowser.off");
+		return Lang.tr(b ? "serverbrowser.on" : "serverbrowser.off");
+	}
+
+	/** Category names come from the server list. Known ones are translated, unknown ones are shown as written. */
+	private static Component categoryLabel(String cat) {
+		String key = "serverbrowser.category." + cat.toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9]+", "_");
+		Component translated = Lang.tr(key);
+		return translated.getString().equals(key) ? Component.literal(cat) : translated;
 	}
 
 	private void updateLabels() {
 		if (categoryBtn == null) return;
-		Component cat = category.equals(ALL) ? Component.translatable("serverbrowser.filter.category.all") : Component.literal(category);
-		categoryBtn.setMessage(Component.translatable("serverbrowser.filter.category", cat));
-		sortBtn.setMessage(Component.translatable("serverbrowser.filter.sort",
-				Component.translatable("serverbrowser.sort." + sort.name().toLowerCase(Locale.ROOT))));
-		hideBtn.setMessage(Component.translatable("serverbrowser.filter.hide_empty", onOff(hideEmpty)));
-		favBtn.setMessage(Component.translatable("serverbrowser.filter.favorites", onOff(favOnly)));
-		compatBtn.setMessage(Component.translatable("serverbrowser.filter.compatible", onOff(compatOnly)));
+		Component cat = category.equals(ALL) ? Lang.tr("serverbrowser.filter.category.all") : categoryLabel(category);
+		categoryBtn.setMessage(Lang.tr("serverbrowser.filter.category", cat));
+		sortBtn.setMessage(Lang.tr("serverbrowser.filter.sort",
+				Lang.tr("serverbrowser.sort." + sort.name().toLowerCase(Locale.ROOT))));
+		hideBtn.setMessage(Lang.tr("serverbrowser.filter.hide_offline", onOff(hideOffline)));
+		favBtn.setMessage(Lang.tr("serverbrowser.filter.favorites", onOff(favOnly)));
+		compatBtn.setMessage(Lang.tr("serverbrowser.filter.compatible", onOff(compatOnly)));
 		compatBtn.active = GameInfo.protocol() > 0;
 	}
 
@@ -278,21 +293,23 @@ public class BrowserScreen extends Screen {
 			out.add(e);
 		}
 
-		// 2) Sorting by players/ping and the Hide empty / Compatible filters need every server's status,
+		// 2) Sorting by players/ping and the Compatible filter need every server's status,
 		//    so in those modes all servers are checked (with progress shown). Otherwise only the current page is.
-		needAll = sort == Sort.PLAYERS || sort == Sort.PING || hideEmpty || compatOnly;
+		needAll = sort == Sort.PLAYERS || sort == Sort.PING || compatOnly;
 		staticTotal = out.size();
 		pendingCount = 0;
 		for (ServerEntry e : out) {
 			if (e.state == ServerEntry.State.IDLE || e.state == ServerEntry.State.PINGING) pendingCount++;
 		}
 
+		// Servers that did not answer are hidden. Pages fill up as servers are checked, so a page may briefly show
+		// servers that are still being checked.
+		if (hideOffline) out.removeIf(e -> e.state == ServerEntry.State.OFFLINE);
+
 		if (needAll) {
 			ServerPinger.request(out, batch, () -> dirty = true);
 			List<ServerEntry> kept = new ArrayList<>();
 			for (ServerEntry e : out) {
-				if (hideEmpty && (e.state == ServerEntry.State.OFFLINE
-						|| (e.state == ServerEntry.State.ONLINE && e.online <= 0))) continue;
 				if (compatOnly && compat(e) == 0) continue;
 				kept.add(e);
 			}
@@ -355,11 +372,11 @@ public class BrowserScreen extends Screen {
 			starBtns[i].active = show;
 			if (!show) continue;
 			boolean added = existing.contains(ServerAdder.normalize(e.ip));
-			addBtns[i].setX(right - 66);
+			addBtns[i].setX(right - 28 - addW);
 			addBtns[i].setY(top + 7);
 			starBtns[i].setX(right - 24);
 			starBtns[i].setY(top + 7);
-			addBtns[i].setMessage(Component.translatable(added ? "serverbrowser.row.added" : "serverbrowser.row.add"));
+			addBtns[i].setMessage(Lang.tr(added ? "serverbrowser.row.added" : "serverbrowser.row.add"));
 			addBtns[i].active = !added;
 			starBtns[i].setMessage(Component.literal(Favorites.has(e.ip) ? "\u2605" : "\u2606"));
 		}
@@ -374,6 +391,7 @@ public class BrowserScreen extends Screen {
 		statusColor = color;
 	}
 
+	// ------------------------------------------------------------------ rendering
 
 	@Override
 	public void extractRenderState(GuiGraphicsExtractor g, int mouseX, int mouseY, float delta) {
@@ -396,7 +414,7 @@ public class BrowserScreen extends Screen {
 			drawRow(g, view.get(i), top, hover);
 		}
 		if (view.isEmpty()) {
-			Component msg = Component.translatable(loading ? "serverbrowser.loading" : "serverbrowser.empty");
+			Component msg = Lang.tr(loading ? "serverbrowser.loading" : "serverbrowser.empty");
 			g.text(this.font, msg, this.width / 2 - this.font.width(msg) / 2, listTop + 24, 0xFFAAAAAA, true);
 		}
 		g.disableScissor();
@@ -420,12 +438,12 @@ public class BrowserScreen extends Screen {
 		}
 
 		if (needAll && pendingCount > 0) {
-			Component checking = Component.translatable("serverbrowser.status.checking", staticTotal - pendingCount, staticTotal);
+			Component checking = Lang.tr("serverbrowser.status.checking", staticTotal - pendingCount, staticTotal);
 			g.text(this.font, checking, rowLeft, listBottom + 6, 0xFFFFFF55, true);
 		} else {
 			g.text(this.font, status, rowLeft, listBottom + 6, statusColor, true);
 		}
-		Component pageInfo = Component.translatable("serverbrowser.page", page + 1, totalPages, filtered.size());
+		Component pageInfo = Lang.tr("serverbrowser.page", page + 1, totalPages, filtered.size());
 		g.text(this.font, pageInfo, rowLeft + rowWidth - this.font.width(pageInfo), listBottom + 6, 0xFF888888, true);
 	}
 
@@ -449,14 +467,14 @@ public class BrowserScreen extends Screen {
 
 		boolean added = existing.contains(ServerAdder.normalize(e.ip));
 		int textX = left + 38;
-		int rightCol = right - 72;
+		int rightCol = right - 34 - addW;
 		int maxText = rightCol - 84 - textX;
 
 		String title = (added ? "\u2714 " : "") + e.name;
 		g.text(this.font, fit(title, maxText), textX, top + 6, added ? 0xFF55FF55 : 0xFFFFFFFF, true);
 
 		String sub = (e.state == ServerEntry.State.ONLINE && !e.motd.isEmpty()) ? e.motd
-				: (e.description.isEmpty() ? e.category : e.description);
+				: (e.description.isEmpty() ? categoryLabel(e.category).getString() : e.description);
 		g.text(this.font, fit(sub, maxText), textX, top + 19, 0xFFAAAAAA, false);
 
 		String players;
@@ -467,7 +485,7 @@ public class BrowserScreen extends Screen {
 				playersColor = e.online > 0 ? 0xFF55FF55 : 0xFFAAAAAA;
 			}
 			case OFFLINE -> {
-				players = Component.translatable("serverbrowser.state.offline").getString();
+				players = Lang.tr("serverbrowser.state.offline").getString();
 				playersColor = 0xFFFF5555;
 			}
 			default -> {
@@ -498,6 +516,7 @@ public class BrowserScreen extends Screen {
 		return sb + ellipsis;
 	}
 
+	// ------------------------------------------------------------------ input
 
 	private ServerEntry entryAt(double mx, double my) {
 		if (my < listTop || my >= listBottom || mx < rowLeft || mx >= rowLeft + rowWidth) return null;
@@ -508,7 +527,7 @@ public class BrowserScreen extends Screen {
 	/** Fallback: a click on the body of a row (not on its buttons) also adds the server, if the screen receives it. */
 	boolean onListClick(double mx, double my, int button) {
 		if (button != 0) return false;
-		if (mx >= rowLeft + rowWidth - 70) return false;
+		if (mx >= rowLeft + rowWidth - (30 + addW)) return false;
 		ServerEntry e = entryAt(mx, my);
 		if (e == null) return false;
 		addServer(e);
@@ -539,16 +558,17 @@ public class BrowserScreen extends Screen {
 			case ADDED -> {
 				addedAny = true;
 				existing.add(ServerAdder.normalize(e.ip));
-				setStatus(Component.translatable("serverbrowser.status.added", e.name), 0xFF55FF55);
+				setStatus(Lang.tr("serverbrowser.status.added", e.name), 0xFF55FF55);
 			}
 			case ALREADY -> {
 				existing.add(ServerAdder.normalize(e.ip));
-				setStatus(Component.translatable("serverbrowser.status.already", e.name), 0xFFFFFF55);
+				setStatus(Lang.tr("serverbrowser.status.already", e.name), 0xFFFFFF55);
 			}
-			case FAILED -> setStatus(Component.translatable("serverbrowser.status.failed"), 0xFFFF5555);
+			case FAILED -> setStatus(Lang.tr("serverbrowser.status.failed"), 0xFFFF5555);
 		}
 	}
 
+	// ------------------------------------------------------------------ closing
 
 	@Override
 	public void removed() {
