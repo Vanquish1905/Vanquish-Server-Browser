@@ -18,7 +18,7 @@ VSM is a lightweight and user-friendly Fabric mod designed to improve your multi
 2. Download the latest VSM mod jar and place it in your mods folder.
 3. (Optional) Install Mod Menu to easily configure mod options in-game.
 
-### Settings
+###  ⚙️Settings
 - You can customize nearly everything
 - You can change the list for a better list
 
