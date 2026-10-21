@@ -1,10 +1,11 @@
 package com.serverbrowser.gui;
 
-import com.serverbrowser.GameInfo;
 import com.serverbrowser.Lang;
 import com.serverbrowser.Nav;
 import com.serverbrowser.config.Favorites;
+import com.serverbrowser.config.History;
 import com.serverbrowser.config.ModConfig;
+import com.serverbrowser.data.PingCache;
 import com.serverbrowser.data.ServerAdder;
 import com.serverbrowser.data.ServerEntry;
 import com.serverbrowser.data.ServerListFetcher;
@@ -17,54 +18,65 @@ import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.Identifier;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * The server browser. Servers are shown a page at a time and only the current page is pinged.
- * Click a server to add it to your server list. Click the star to favorite it.
+ * The server browser. Tabs: All / Favorites / Recent. Each row has an Add button (adds the server to your
+ * Multiplayer list), a star (favorite) and a note button.
  */
 public class BrowserScreen extends Screen {
 	private static final int ROW_H = 36;
-	private static final String ALL = "\u0000all";
 
-	/** PLAYERS and PING (and the Hide empty / Compatible filters) need every server's status, so they check all servers. */
+	/** PLAYERS and PING (and live-data filters) need every server's status, so they check all servers. */
 	private enum Sort { ORDER, NAME, PLAYERS, PING }
 
+	private enum Tab { ALL, FAVORITES, RECENT }
+
 	private final Screen parent;
+	private final Filters filters = new Filters();
 
 	private List<ServerEntry> all = List.of();
-	private List<ServerEntry> filtered = List.of();
+	private final Map<String, ServerEntry> byIp = new HashMap<>();
+	/** Favorites / history servers that are not in the downloaded list. */
+	private final Map<String, ServerEntry> extras = new HashMap<>();
+	private Map<String, Integer> tagCounts = new LinkedHashMap<>();
 	private List<ServerEntry> view = List.of();
-	private final List<String> categories = new ArrayList<>();
-	private String category = ALL;
+
+	private Tab tab = Tab.ALL;
 	private Sort sort = Sort.ORDER;
-	private boolean hideOffline = ModConfig.get().hideOfflineByDefault;
-	private boolean favOnly;
-	private boolean compatOnly;
 	private String searchText = "";
-	private int page;
-	private int totalPages = 1;
 
 	private EditBox search;
+	private final Button[] tabBtns = new Button[3];
+	private Button sortBtn, filterBtn, prevBtn, nextBtn;
 	private Button[] addBtns = new Button[0];
 	private Button[] starBtns = new Button[0];
-	private int pendingCount;
-	private int staticTotal;
-	private boolean needAll;
+	private Button[] noteBtns = new Button[0];
 	private int addW = 38;
-	private Button categoryBtn, sortBtn, hideBtn, favBtn, compatBtn, prevBtn, nextBtn;
 
 	private double scroll;
 	private int listTop, listBottom, rowLeft, rowWidth;
+	private int page;
+	private int totalPages = 1;
+	private int staticTotal;
+	private int pendingCount;
+	private boolean needAll;
 
 	private volatile boolean dirty = true;
 	private boolean loading = true;
@@ -88,6 +100,10 @@ public class BrowserScreen extends Screen {
 
 	@Override
 	protected void init() {
+		// This screen is re-initialised after Settings / Filters / Note screens and on window resize.
+		closed = false;
+		resetBatch();
+
 		rowWidth = Math.min(this.width - 20, 440);
 		rowLeft = (this.width - rowWidth) / 2;
 		listTop = 74;
@@ -111,50 +127,51 @@ public class BrowserScreen extends Screen {
 				.bounds(right - 60, 22, 60, 20).build());
 
 		int bw = (rowWidth - 16) / 5;
-		categoryBtn = this.addRenderableWidget(Button.builder(Component.empty(), b -> cycleCategory())
-				.bounds(rowLeft, 46, bw, 20).build());
+		String[] tabKeys = {"serverbrowser.tab.all", "serverbrowser.tab.favorites", "serverbrowser.tab.recent"};
+		for (int i = 0; i < 3; i++) {
+			final Tab target = Tab.values()[i];
+			tabBtns[i] = this.addRenderableWidget(Button.builder(Lang.tr(tabKeys[i]), b -> {
+				tab = target;
+				resetView();
+			}).bounds(rowLeft + i * (bw + 4), 46, bw, 20).build());
+		}
 		sortBtn = this.addRenderableWidget(Button.builder(Component.empty(), b -> {
 			sort = Sort.values()[(sort.ordinal() + 1) % Sort.values().length];
 			resetView();
-		}).bounds(rowLeft + (bw + 4), 46, bw, 20).build());
-		hideBtn = this.addRenderableWidget(Button.builder(Component.empty(), b -> {
-			hideOffline = !hideOffline;
-			resetView();
-		}).bounds(rowLeft + 2 * (bw + 4), 46, bw, 20).build());
-		favBtn = this.addRenderableWidget(Button.builder(Component.empty(), b -> {
-			favOnly = !favOnly;
-			resetView();
 		}).bounds(rowLeft + 3 * (bw + 4), 46, bw, 20).build());
-		compatBtn = this.addRenderableWidget(Button.builder(Component.empty(), b -> {
-			compatOnly = !compatOnly;
-			resetView();
-		}).bounds(rowLeft + 4 * (bw + 4), 46, bw, 20).build());
+		filterBtn = this.addRenderableWidget(Button.builder(Component.empty(),
+						b -> Nav.open(this.minecraft, new FilterScreen(this, filters, tagCounts)))
+				.bounds(rowLeft + 4 * (bw + 4), 46, bw, 20).build());
 
 		int cx = this.width / 2;
-		prevBtn = this.addRenderableWidget(Button.builder(Lang.tr("serverbrowser.button.prev"), b -> goToPage(page - 1))
-				.bounds(cx - 144, this.height - 26, 80, 20).build());
+		prevBtn = this.addRenderableWidget(Button.builder(Lang.tr("serverbrowser.button.prev"), b -> setPage(page - 1))
+				.bounds(cx - 175, this.height - 26, 80, 20).build());
 		this.addRenderableWidget(Button.builder(Lang.tr("serverbrowser.button.done"), b -> onClose())
-				.bounds(cx - 60, this.height - 26, 120, 20).build());
-		nextBtn = this.addRenderableWidget(Button.builder(Lang.tr("serverbrowser.button.next"), b -> goToPage(page + 1))
-				.bounds(cx + 64, this.height - 26, 80, 20).build());
+				.bounds(cx - 85, this.height - 26, 170, 20).build());
+		nextBtn = this.addRenderableWidget(Button.builder(Lang.tr("serverbrowser.button.next"), b -> setPage(page + 1))
+				.bounds(cx + 95, this.height - 26, 80, 20).build());
 
 		// The Add button is as wide as its longest label ("Add" / "Added") in the current language.
 		addW = Math.max(38, Math.max(
 				this.font.width(Lang.tr("serverbrowser.row.add")),
 				this.font.width(Lang.tr("serverbrowser.row.added"))) + 12);
 
-		// One Add button and one star button per row on a page. They are real buttons, positioned each frame.
+		// One Add, star and note button per row on a page. They are real buttons, positioned each frame.
 		int rows = Math.max(1, ModConfig.get().pageSize);
 		addBtns = new Button[rows];
 		starBtns = new Button[rows];
+		noteBtns = new Button[rows];
 		for (int i = 0; i < rows; i++) {
 			final int idx = i;
 			addBtns[i] = this.addWidget(Button.builder(Lang.tr("serverbrowser.row.add"), b -> addServer(rowEntry(idx)))
 					.bounds(0, 0, addW, 20).build());
 			starBtns[i] = this.addWidget(Button.builder(Component.literal("\u2606"), b -> toggleFavorite(rowEntry(idx)))
 					.bounds(0, 0, 20, 20).build());
+			noteBtns[i] = this.addWidget(Button.builder(Component.literal("\u270E"), b -> openNote(rowEntry(idx)))
+					.bounds(0, 0, 20, 20).build());
 			addBtns[i].visible = false;
 			starBtns[i].visible = false;
+			noteBtns[i].visible = false;
 		}
 
 		updateLabels();
@@ -168,8 +185,25 @@ public class BrowserScreen extends Screen {
 		}
 	}
 
+	private void resetBatch() {
+		batch.cancel();
+		batch = new ServerPinger.Batch();
+	}
+
 	private void reload(boolean force) {
 		resetBatch();
+		if (force) {
+			PingCache.clear();
+			extras.clear();
+		}
+
+		// Opened again within a few minutes: show the list we already have, instantly.
+		ServerListFetcher.Result cached = force ? null : ServerListFetcher.peekFresh();
+		if (cached != null) {
+			onLoaded(cached);
+			return;
+		}
+
 		loading = true;
 		setStatus(Lang.tr("serverbrowser.status.loading"), 0xFFAAAAAA);
 		CompletableFuture
@@ -186,16 +220,32 @@ public class BrowserScreen extends Screen {
 
 	private void onLoaded(ServerListFetcher.Result result) {
 		if (closed) return;
-		for (ServerEntry old : all) IconCache.release(old);
+		if (result.servers() != all) {
+			for (ServerEntry old : all) IconCache.release(old);
+		}
 		all = result.servers();
 		loading = false;
 
-		categories.clear();
+		// Index by address, fill in remembered status from the cache, and count the tags.
+		byIp.clear();
+		Map<String, String> display = new LinkedHashMap<>();
+		Map<String, Integer> counts = new HashMap<>();
 		for (ServerEntry e : all) {
-			if (categories.stream().noneMatch(c -> c.equalsIgnoreCase(e.category))) categories.add(e.category);
+			PingCache.applyTo(e);
+			byIp.put(ServerAdder.normalize(e.ip), e);
+			for (String t : e.tags) {
+				String key = t.toLowerCase(Locale.ROOT);
+				display.putIfAbsent(key, t);
+				counts.merge(key, 1, Integer::sum);
+			}
 		}
-		categories.sort(String.CASE_INSENSITIVE_ORDER);
-		if (categories.stream().noneMatch(c -> c.equals(category))) category = ALL;
+		List<Map.Entry<String, Integer>> sorted = new ArrayList<>(counts.entrySet());
+		sorted.sort((a, b) -> {
+			int c = Integer.compare(b.getValue(), a.getValue());
+			return c != 0 ? c : a.getKey().compareTo(b.getKey());
+		});
+		tagCounts = new LinkedHashMap<>();
+		for (Map.Entry<String, Integer> en : sorted) tagCounts.put(display.get(en.getKey()), en.getValue());
 
 		existing = ServerAdder.existing(this.minecraft);
 
@@ -211,43 +261,47 @@ public class BrowserScreen extends Screen {
 			setStatus(Lang.tr("serverbrowser.status.loaded", all.size(), Lang.tr(sourceKey)), 0xFFAAAAAA);
 		}
 		updateLabels();
-		resetView();
+		lastRebuild = 0;
+		dirty = true;
 	}
 
-	// ------------------------------------------------------------------ filters & paging
+	// ------------------------------------------------------------------ state changes
 
-	private void resetBatch() {
-		batch.cancel();
-		batch = new ServerPinger.Batch();
-	}
-
-	/** Filters/search/sort changed: go back to page 1 and drop queued pings for the old page. */
+	/** Search text, tab, sort or filters changed: back to the first page. */
 	private void resetView() {
+		scroll = 0;
 		page = 0;
-		scroll = 0;
-		resetBatch();
+		lastRebuild = 0;
+		dirty = true;
 		updateLabels();
-		dirty = true;
 	}
 
-	private void goToPage(int newPage) {
-		page = Math.max(0, Math.min(totalPages - 1, newPage));
+	private void setPage(int p) {
+		page = Math.max(0, Math.min(totalPages - 1, p));
 		scroll = 0;
-		resetBatch();
+		lastRebuild = 0;
 		dirty = true;
 	}
 
-	private void cycleCategory() {
-		List<String> options = new ArrayList<>();
-		options.add(ALL);
-		options.addAll(categories);
-		int idx = options.indexOf(category);
-		category = options.get((idx + 1) % options.size());
+	/** Called by the filters screen when it closes. */
+	void filtersChanged() {
 		resetView();
 	}
 
-	private static Component onOff(boolean b) {
-		return Lang.tr(b ? "serverbrowser.on" : "serverbrowser.off");
+	/** Called by the note screen after saving. */
+	void noteChanged() {
+		lastRebuild = 0;
+		dirty = true;
+	}
+
+	private void updateLabels() {
+		if (sortBtn == null) return;
+		for (int i = 0; i < tabBtns.length; i++) {
+			if (tabBtns[i] != null) tabBtns[i].active = tab.ordinal() != i; // the open tab is greyed out
+		}
+		sortBtn.setMessage(Lang.tr("serverbrowser.filter.sort",
+				Lang.tr("serverbrowser.sort." + sort.name().toLowerCase(Locale.ROOT))));
+		filterBtn.setMessage(Lang.tr("serverbrowser.filters.button", filters.activeCount()));
 	}
 
 	/** Category names come from the server list. Known ones are translated, unknown ones are shown as written. */
@@ -257,23 +311,46 @@ public class BrowserScreen extends Screen {
 		return translated.getString().equals(key) ? Component.literal(cat) : translated;
 	}
 
-	private void updateLabels() {
-		if (categoryBtn == null) return;
-		Component cat = category.equals(ALL) ? Lang.tr("serverbrowser.filter.category.all") : categoryLabel(category);
-		categoryBtn.setMessage(Lang.tr("serverbrowser.filter.category", cat));
-		sortBtn.setMessage(Lang.tr("serverbrowser.filter.sort",
-				Lang.tr("serverbrowser.sort." + sort.name().toLowerCase(Locale.ROOT))));
-		hideBtn.setMessage(Lang.tr("serverbrowser.filter.hide_offline", onOff(hideOffline)));
-		favBtn.setMessage(Lang.tr("serverbrowser.filter.favorites", onOff(favOnly)));
-		compatBtn.setMessage(Lang.tr("serverbrowser.filter.compatible", onOff(compatOnly)));
-		compatBtn.active = GameInfo.protocol() > 0;
+	// ------------------------------------------------------------------ building the visible page
+
+	/** The servers of the open tab, before searching and filtering. */
+	private List<ServerEntry> sourceList() {
+		switch (tab) {
+			case FAVORITES: {
+				List<ServerEntry> out = new ArrayList<>();
+				for (Favorites.Record r : Favorites.favorites()) out.add(entryFor(r.ip, r.name));
+				return out;
+			}
+			case RECENT: {
+				List<ServerEntry> out = new ArrayList<>();
+				for (History.Entry h : History.list()) out.add(entryFor(h.ip, h.name));
+				return out;
+			}
+			default:
+				return all;
+		}
 	}
 
-	/** 1 = compatible, 0 = incompatible, -1 = unknown. */
-	private static int compat(ServerEntry e) {
-		int mine = GameInfo.protocol();
-		if (mine <= 0 || e.state != ServerEntry.State.ONLINE || e.protocol <= 0) return -1;
-		return e.protocol == mine ? 1 : 0;
+	/** The list entry for an address, or a plain entry for servers that are not in the downloaded list. */
+	private ServerEntry entryFor(String ip, String name) {
+		String key = ServerAdder.normalize(ip);
+		ServerEntry listed = byIp.get(key);
+		if (listed != null) return listed;
+		return extras.computeIfAbsent(key, k -> {
+			ServerEntry e = new ServerEntry(k, name == null || name.isBlank() ? ip : name, ip, "Other", "", "",
+					List.of(), false, List.of());
+			PingCache.applyTo(e);
+			return e;
+		});
+	}
+
+	private static boolean matchesSearch(ServerEntry e, String q) {
+		return e.name.toLowerCase(Locale.ROOT).contains(q)
+				|| e.ip.toLowerCase(Locale.ROOT).contains(q)
+				|| e.category.toLowerCase(Locale.ROOT).contains(q)
+				|| e.description.toLowerCase(Locale.ROOT).contains(q)
+				|| String.join(" ", e.tags).toLowerCase(Locale.ROOT).contains(q)
+				|| Favorites.note(e.ip).toLowerCase(Locale.ROOT).contains(q);
 	}
 
 	private void rebuildView() {
@@ -281,47 +358,33 @@ public class BrowserScreen extends Screen {
 		dirty = false;
 		String q = searchText.trim().toLowerCase(Locale.ROOT);
 
-		// 1) Filters that don't need ping data.
+		// 1) Things that need no ping data: tab, search, game mode tags.
 		List<ServerEntry> out = new ArrayList<>();
-		for (ServerEntry e : all) {
-			if (!category.equals(ALL) && !e.category.equalsIgnoreCase(category)) continue;
-			if (!q.isEmpty() && !(e.name.toLowerCase(Locale.ROOT).contains(q)
-					|| e.ip.toLowerCase(Locale.ROOT).contains(q)
-					|| e.category.toLowerCase(Locale.ROOT).contains(q)
-					|| e.description.toLowerCase(Locale.ROOT).contains(q))) continue;
-			if (favOnly && !Favorites.has(e.ip)) continue;
+		for (ServerEntry e : sourceList()) {
+			if (!q.isEmpty() && !matchesSearch(e, q)) continue;
+			if (!filters.matchesTags(e)) continue;
 			out.add(e);
 		}
 
-		// 2) Sorting by players/ping and the Compatible filter need every server's status,
-		//    so in those modes all servers are checked (with progress shown). Otherwise only the current page is.
-		needAll = sort == Sort.PLAYERS || sort == Sort.PING || compatOnly;
+		// 2) Sorting by players/ping and the live filters (full, empty, locked, mods, version) need every
+		//    server's status, so in those modes all servers are checked, with progress shown at the bottom.
+		//    Otherwise only the servers on the current page are checked.
+		needAll = sort == Sort.PLAYERS || sort == Sort.PING || filters.needsLiveData();
 		staticTotal = out.size();
 		pendingCount = 0;
 		for (ServerEntry e : out) {
 			if (e.state == ServerEntry.State.IDLE || e.state == ServerEntry.State.PINGING) pendingCount++;
 		}
+		if (needAll) ServerPinger.request(out, batch, () -> dirty = true);
 
-		// Servers that did not answer are hidden. Pages fill up as servers are checked, so a page may briefly show
-		// servers that are still being checked.
-		if (hideOffline) out.removeIf(e -> e.state == ServerEntry.State.OFFLINE);
+		out.removeIf(e -> !filters.matchesLive(e));
 
-		if (needAll) {
-			ServerPinger.request(out, batch, () -> dirty = true);
-			List<ServerEntry> kept = new ArrayList<>();
-			for (ServerEntry e : out) {
-				if (compatOnly && compat(e) == 0) continue;
-				kept.add(e);
-			}
-			out = kept;
-			if (sort == Sort.PLAYERS) {
-				out.sort(Comparator.comparingInt(BrowserScreen::playersRank).reversed());
-			} else if (sort == Sort.PING) {
-				out.sort(Comparator.comparingInt(e -> e.state == ServerEntry.State.ONLINE && e.pingMs >= 0 ? e.pingMs : Integer.MAX_VALUE));
-			}
+		switch (sort) {
+			case NAME -> out.sort(Comparator.comparing(e -> e.name.toLowerCase(Locale.ROOT)));
+			case PLAYERS -> out.sort(Comparator.comparingInt(BrowserScreen::playersRank).reversed());
+			case PING -> out.sort(Comparator.comparingInt(e -> e.state == ServerEntry.State.ONLINE && e.pingMs >= 0 ? e.pingMs : Integer.MAX_VALUE));
+			default -> { }
 		}
-		if (sort == Sort.NAME) out.sort(Comparator.comparing(e -> e.name.toLowerCase(Locale.ROOT)));
-		filtered = out;
 
 		// 3) Split into pages.
 		int size = Math.max(1, ModConfig.get().pageSize);
@@ -351,11 +414,27 @@ public class BrowserScreen extends Screen {
 		return (i >= 0 && i < view.size()) ? view.get(i) : null;
 	}
 
+	private int maxScroll() {
+		return Math.max(0, view.size() * ROW_H - (listBottom - listTop));
+	}
+
+	private void setStatus(Component text, int color) {
+		status = text;
+		statusColor = color;
+	}
+
+	// ------------------------------------------------------------------ row buttons
+
 	private void toggleFavorite(ServerEntry e) {
 		if (e == null) return;
-		Favorites.toggle(e.ip);
+		Favorites.toggle(e.ip, e.name);
 		lastRebuild = 0;
 		dirty = true;
+	}
+
+	private void openNote(ServerEntry e) {
+		if (e == null) return;
+		Nav.open(this.minecraft, new NoteScreen(this, e));
 	}
 
 	/** Moves the per-row buttons to their rows. Rows that are cut off by the list edge get no buttons. */
@@ -368,40 +447,38 @@ public class BrowserScreen extends Screen {
 			boolean show = e != null && top >= listTop && top + ROW_H - 2 <= listBottom;
 			addBtns[i].visible = show;
 			starBtns[i].visible = show;
+			noteBtns[i].visible = show;
 			addBtns[i].active = show;
 			starBtns[i].active = show;
+			noteBtns[i].active = show;
 			if (!show) continue;
 			boolean added = existing.contains(ServerAdder.normalize(e.ip));
-			addBtns[i].setX(right - 28 - addW);
+			addBtns[i].setX(right - 48 - addW);
 			addBtns[i].setY(top + 7);
-			starBtns[i].setX(right - 24);
+			starBtns[i].setX(right - 44);
 			starBtns[i].setY(top + 7);
+			noteBtns[i].setX(right - 22);
+			noteBtns[i].setY(top + 7);
 			addBtns[i].setMessage(Lang.tr(added ? "serverbrowser.row.added" : "serverbrowser.row.add"));
 			addBtns[i].active = !added;
 			starBtns[i].setMessage(Component.literal(Favorites.has(e.ip) ? "\u2605" : "\u2606"));
 		}
 	}
 
-	private int maxScroll() {
-		return Math.max(0, view.size() * ROW_H - (listBottom - listTop));
-	}
-
-	private void setStatus(Component text, int color) {
-		status = text;
-		statusColor = color;
-	}
-
 	// ------------------------------------------------------------------ rendering
 
 	@Override
 	public void extractRenderState(GuiGraphicsExtractor g, int mouseX, int mouseY, float delta) {
-		if (dirty && System.currentTimeMillis() - lastRebuild > 250) rebuildView();
+		IconCache.beginFrame();
+		long interval = pendingCount > 50 ? 500 : 250; // rebuild less often while many servers are being checked
+		if (dirty && System.currentTimeMillis() - lastRebuild > interval) rebuildView();
 		layoutRowButtons();
 
 		super.extractRenderState(g, mouseX, mouseY, delta);
 
 		g.text(this.font, this.title, this.width / 2 - this.font.width(this.title) / 2, 8, 0xFFFFFFFF, true);
 
+		// list panel
 		g.fill(rowLeft - 4, listTop, rowLeft + rowWidth + 12, listBottom, 0x88000000);
 		g.enableScissor(rowLeft - 4, listTop, rowLeft + rowWidth + 12, listBottom);
 		int s = (int) scroll;
@@ -414,11 +491,12 @@ public class BrowserScreen extends Screen {
 			drawRow(g, view.get(i), top, hover);
 		}
 		if (view.isEmpty()) {
-			Component msg = Lang.tr(loading ? "serverbrowser.loading" : "serverbrowser.empty");
+			Component msg = Lang.tr(emptyKey());
 			g.text(this.font, msg, this.width / 2 - this.font.width(msg) / 2, listTop + 24, 0xFFAAAAAA, true);
 		}
 		g.disableScissor();
 
+		// scrollbar
 		int max = maxScroll();
 		if (max > 0) {
 			int trackH = listBottom - listTop;
@@ -434,17 +512,27 @@ public class BrowserScreen extends Screen {
 			if (addBtns[i].visible) {
 				addBtns[i].extractRenderState(g, mouseX, mouseY, delta);
 				starBtns[i].extractRenderState(g, mouseX, mouseY, delta);
+				noteBtns[i].extractRenderState(g, mouseX, mouseY, delta);
 			}
 		}
 
+		// footer
+		Component pageInfo = Lang.tr("serverbrowser.page", page + 1, totalPages, staticTotal);
+		int pw = this.font.width(pageInfo);
+		g.text(this.font, pageInfo, rowLeft + rowWidth - pw, listBottom + 6, 0xFF888888, true);
 		if (needAll && pendingCount > 0) {
 			Component checking = Lang.tr("serverbrowser.status.checking", staticTotal - pendingCount, staticTotal);
 			g.text(this.font, checking, rowLeft, listBottom + 6, 0xFFFFFF55, true);
 		} else {
-			g.text(this.font, status, rowLeft, listBottom + 6, statusColor, true);
+			g.text(this.font, fit(status.getString(), rowWidth - pw - 12), rowLeft, listBottom + 6, statusColor, true);
 		}
-		Component pageInfo = Lang.tr("serverbrowser.page", page + 1, totalPages, filtered.size());
-		g.text(this.font, pageInfo, rowLeft + rowWidth - this.font.width(pageInfo), listBottom + 6, 0xFF888888, true);
+	}
+
+	private String emptyKey() {
+		if (loading) return "serverbrowser.loading";
+		if (tab == Tab.FAVORITES && Favorites.favorites().isEmpty()) return "serverbrowser.empty.favorites";
+		if (tab == Tab.RECENT && History.list().isEmpty()) return "serverbrowser.empty.recent";
+		return "serverbrowser.empty";
 	}
 
 	private void drawRow(GuiGraphicsExtractor g, ServerEntry e, int top, boolean hover) {
@@ -461,21 +549,37 @@ public class BrowserScreen extends Screen {
 			int h = e.name.hashCode();
 			int color = 0xFF000000 | (((h & 0xFF) / 2 + 60) << 16) | ((((h >> 8) & 0xFF) / 2 + 60) << 8) | (((h >> 16) & 0xFF) / 2 + 60);
 			g.fill(left + 4, top + 4, left + 30, top + 30, color);
-			String letter = e.name.substring(0, 1).toUpperCase(Locale.ROOT);
+			String letter = e.name.isEmpty() ? "?" : e.name.substring(0, 1).toUpperCase(Locale.ROOT);
 			g.text(this.font, letter, left + 17 - this.font.width(letter) / 2, top + 13, 0xFFFFFFFF, true);
 		}
 
 		boolean added = existing.contains(ServerAdder.normalize(e.ip));
 		int textX = left + 38;
-		int rightCol = right - 34 - addW;
+		int rightCol = right - 54 - addW;
 		int maxText = rightCol - 84 - textX;
 
-		String title = (added ? "\u2714 " : "") + e.name;
-		g.text(this.font, fit(title, maxText), textX, top + 6, added ? 0xFF55FF55 : 0xFFFFFFFF, true);
+		String title = fit((added ? "\u2714 " : "") + e.name, maxText);
+		g.text(this.font, title, textX, top + 6, added ? 0xFF55FF55 : 0xFFFFFFFF, true);
+		int bx = textX + this.font.width(title) + 5;
+		bx = badge(g, bx, top + 6, textX + maxText, Filters.isFull(e), "serverbrowser.badge.full", 0xFFFFD84D);
+		bx = badge(g, bx, top + 6, textX + maxText, Filters.isLocked(e), "serverbrowser.badge.locked", 0xFFFF7777);
+		badge(g, bx, top + 6, textX + maxText, e.missingMods > 0, "serverbrowser.badge.mods", 0xFFFFA64D);
 
-		String sub = (e.state == ServerEntry.State.ONLINE && !e.motd.isEmpty()) ? e.motd
-				: (e.description.isEmpty() ? categoryLabel(e.category).getString() : e.description);
-		g.text(this.font, fit(sub, maxText), textX, top + 19, 0xFFAAAAAA, false);
+		// second line: your note, or (Recent tab) when you joined, or the server's message / description
+		String note = Favorites.note(e.ip);
+		String sub;
+		int subColor = 0xFFAAAAAA;
+		if (!note.isEmpty()) {
+			sub = "\u270E " + note;
+			subColor = 0xFFFFD27F;
+		} else if (tab == Tab.RECENT) {
+			sub = historyLine(e);
+		} else if (e.state == ServerEntry.State.ONLINE && !e.motd.isEmpty()) {
+			sub = e.motd;
+		} else {
+			sub = e.description.isEmpty() ? categoryLabel(e.category).getString() : e.description;
+		}
+		g.text(this.font, fit(sub, maxText), textX, top + 19, subColor, false);
 
 		String players;
 		int playersColor;
@@ -497,10 +601,35 @@ public class BrowserScreen extends Screen {
 
 		if (e.state == ServerEntry.State.ONLINE) {
 			String info = fit(e.versionName, 70) + (e.pingMs >= 0 ? "  " + e.pingMs + "ms" : "");
-			int infoColor = compat(e) == 0 ? 0xFFFF7777 : 0xFF888888;
+			int infoColor = Filters.compat(e) == 0 ? 0xFFFF7777 : 0xFF888888;
 			g.text(this.font, info, rightCol - this.font.width(info), top + 19, infoColor, false);
 		}
+	}
 
+	/** Draws a small tag after the server name if it applies and fits. Returns where the next one starts. */
+	private int badge(GuiGraphicsExtractor g, int x, int y, int limit, boolean on, String key, int color) {
+		if (!on) return x;
+		String text = Lang.tr(key).getString();
+		int w = this.font.width(text);
+		if (x + w > limit) return x;
+		g.text(this.font, text, x, y, color, true);
+		return x + w + 5;
+	}
+
+	private String historyLine(ServerEntry e) {
+		History.Entry h = History.get(e.ip);
+		if (h == null) return "";
+		String when = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+				.withLocale(Lang.locale())
+				.withZone(ZoneId.systemDefault())
+				.format(Instant.ofEpochMilli(h.lastJoined));
+		return Lang.tr("serverbrowser.history.line", when, duration(History.totalMs(h)), h.joins).getString();
+	}
+
+	private static String duration(long ms) {
+		long minutes = ms / 60_000L;
+		if (minutes >= 60) return Lang.tr("serverbrowser.duration", minutes / 60, minutes % 60).getString();
+		return Lang.tr("serverbrowser.duration.short", minutes).getString();
 	}
 
 	private String fit(String s, int maxWidth) {
@@ -527,7 +656,7 @@ public class BrowserScreen extends Screen {
 	/** Fallback: a click on the body of a row (not on its buttons) also adds the server, if the screen receives it. */
 	boolean onListClick(double mx, double my, int button) {
 		if (button != 0) return false;
-		if (mx >= rowLeft + rowWidth - (30 + addW)) return false;
+		if (mx >= rowLeft + rowWidth - (50 + addW)) return false;
 		ServerEntry e = entryAt(mx, my);
 		if (e == null) return false;
 		addServer(e);
@@ -575,6 +704,8 @@ public class BrowserScreen extends Screen {
 		closed = true;
 		batch.cancel();
 		for (ServerEntry e : all) IconCache.release(e);
+		for (ServerEntry e : extras.values()) IconCache.release(e);
+		PingCache.flushNow();
 		super.removed();
 	}
 

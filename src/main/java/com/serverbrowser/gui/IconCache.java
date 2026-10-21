@@ -18,7 +18,15 @@ final class IconCache {
 	private static boolean resolved;
 	private static Method forServer, upload, textureLocation, close;
 
+	private static final int PER_FRAME = 3;
+	private static int budget = PER_FRAME;
+
 	private IconCache() {}
+
+	/** Call once per frame. Limits how many new icons are turned into textures in that frame. */
+	static void beginFrame() {
+		budget = PER_FRAME;
+	}
 
 	private static Method find(Class<?> type, String name, int params) throws NoSuchMethodException {
 		for (Method m : type.getMethods()) {
@@ -51,6 +59,8 @@ final class IconCache {
 
 		byte[] png = e.iconBytes;
 		if (png == null || e.iconTried) return null;
+		if (budget <= 0) return null; // try again next frame
+		budget--;
 		e.iconTried = true;
 		if (!resolve()) return null;
 

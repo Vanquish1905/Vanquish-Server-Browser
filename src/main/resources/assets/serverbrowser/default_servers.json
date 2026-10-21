@@ -1,31 +1,2520 @@
 {
-  "schema": 1,
-  "name": "Built-in starter list",
-  "updated": "2026-10-12",
+  "schema": 2,
+  "name": "Active Minecraft servers (from NameMC, October 2026)",
+  "updated": "2026-10-20",
   "servers": [
+    {
+      "id": "hoplite",
+      "name": "Hoplite",
+      "ip": "hoplite.gg",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels"
+      ],
+      "description": "PvP · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "catpvp",
+      "name": "CatPvP",
+      "ip": "catpvp.com",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels",
+        "FFA"
+      ],
+      "description": "PvP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "pvphq",
+      "name": "PvPHQ",
+      "ip": "pvphq.com",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "lifesteal-smp",
+      "name": "LifeSteal SMP",
+      "ip": "nm.lifestealsmp.com",
+      "category": "Lifesteal",
+      "tags": [
+        "Lifesteal",
+        "SMP"
+      ],
+      "description": "Lifesteal · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "cavepvp",
+      "name": "CavePvP",
+      "ip": "cavepvp.com",
+      "category": "Factions",
+      "tags": [
+        "Factions",
+        "HCF"
+      ],
+      "description": "Factions · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "enchantedmc",
+      "name": "EnchantedMC",
+      "ip": "enchantedmc.net",
+      "category": "Gens",
+      "tags": [
+        "Gens"
+      ],
+      "description": "Gens · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "og-network",
+      "name": "OG Network",
+      "ip": "og-network.net",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "talonmc",
+      "name": "TalonMC",
+      "ip": "play.talonmc.net",
+      "category": "Pixelmon",
+      "tags": [
+        "Pixelmon"
+      ],
+      "description": "Pixelmon · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "sunrealms",
+      "name": "SunRealms",
+      "ip": "vote.sunrealms.net",
+      "category": "Gens",
+      "tags": [
+        "Gens"
+      ],
+      "description": "Gens · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "fullwin-gg",
+      "name": "fullwin.gg",
+      "ip": "fullwin.gg",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels",
+        "Practice"
+      ],
+      "description": "PvP · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "purple-prison",
+      "name": "Purple Prison",
+      "ip": "purple.wtf",
+      "category": "Prison",
+      "tags": [
+        "Prison"
+      ],
+      "description": "Prison · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mooneu-pl",
+      "name": "mooneu.pl",
+      "ip": "mooneu.pl",
+      "category": "SMP",
+      "tags": [
+        "SMP",
+        "Polski"
+      ],
+      "description": "SMP · Polski · hosted in Australia",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "oceanias",
+      "name": "Oceanias",
+      "ip": "oceanias.net",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "arch-mc",
+      "name": "arch.mc",
+      "ip": "arch.mc",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mcpvp-club",
+      "name": "mcpvp.club",
+      "ip": "mcpvp.club",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels",
+        "FFA"
+      ],
+      "description": "PvP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "impendmc-net",
+      "name": "impendmc.net",
+      "ip": "impendmc.net",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Practice"
+      ],
+      "description": "PvP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "solar-skies",
+      "name": "Solar Skies",
+      "ip": "play.solarskies.net",
+      "category": "Gens",
+      "tags": [
+        "Gens"
+      ],
+      "description": "Gens · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "unstablesmp-fun",
+      "name": "unstablesmp.fun",
+      "ip": "unstablesmp.fun",
+      "category": "SMP",
+      "tags": [
+        "SMP"
+      ],
+      "description": "SMP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "pinkprison-net",
+      "name": "pinkprison.net",
+      "ip": "pinkprison.net",
+      "category": "Prison",
+      "tags": [
+        "Prison"
+      ],
+      "description": "Prison · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "akumamc",
+      "name": "AkumaMC",
+      "ip": "akumamc.net",
+      "category": "Prison",
+      "tags": [
+        "Prison"
+      ],
+      "description": "Prison · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "pvprivals",
+      "name": "PvPRivals",
+      "ip": "pvprivals.net",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Français"
+      ],
+      "description": "PvP · Français · hosted in France",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "hylexmc",
+      "name": "HylexMC",
+      "ip": "hylexmc.net",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "fishonmc",
+      "name": "FishOnMC",
+      "ip": "play.fishonmc.net",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "earthmc",
+      "name": "EarthMC",
+      "ip": "nmc.earthmc.net",
+      "category": "Towny",
+      "tags": [
+        "Towny"
+      ],
+      "description": "Towny · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "widowmc",
+      "name": "WidowMC",
+      "ip": "widowmc.net",
+      "category": "Survival",
+      "tags": [
+        "Survival"
+      ],
+      "description": "Survival · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "zedarmc",
+      "name": "ZedarMC",
+      "ip": "play.zedarmc.com",
+      "category": "SMP",
+      "tags": [
+        "SMP"
+      ],
+      "description": "SMP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "donutsmp",
+      "name": "DonutSMP",
+      "ip": "donutsmp.net",
+      "category": "SMP",
+      "tags": [
+        "SMP",
+        "Survival"
+      ],
+      "description": "SMP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "stardix",
+      "name": "StarDix",
+      "ip": "play.stardix.com",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Português (BR)"
+      ],
+      "description": "PvP · Português (BR) · hosted in Brazil",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "leone-network",
+      "name": "Leone Network",
+      "ip": "leonemc.net",
+      "category": "Lifesteal",
+      "tags": [
+        "Lifesteal",
+        "Crystal PvP"
+      ],
+      "description": "Lifesteal · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "elevatemc",
+      "name": "ElevateMC",
+      "ip": "elevatemc.com",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mineplex",
+      "name": "Mineplex",
+      "ip": "mineplex.com",
+      "category": "Minigames",
+      "tags": [
+        "Minigames"
+      ],
+      "description": "Minigames · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "skyblock",
+      "name": "Skyblock",
+      "ip": "skyblock.net",
+      "category": "Skyblock",
+      "tags": [
+        "Skyblock"
+      ],
+      "description": "Skyblock · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "signal-smp",
+      "name": "Signal SMP",
+      "ip": "signalsmp.com",
+      "category": "SMP",
+      "tags": [
+        "SMP",
+        "Survival"
+      ],
+      "description": "SMP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "playcub",
+      "name": "PlayCub",
+      "ip": "mc.playcub.net",
+      "category": "Other",
+      "tags": [
+        "Español"
+      ],
+      "description": "Other · Español · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "sharpness",
+      "name": "Sharpness",
+      "ip": "sharpness.gg",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "gladmc",
+      "name": "GladMC",
+      "ip": "gladmc.com",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Português (BR)"
+      ],
+      "description": "PvP · Português (BR) · hosted in Brazil",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mcpvp",
+      "name": "MCPVP",
+      "ip": "mcpvp.com",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "stray",
+      "name": "Stray",
+      "ip": "stray.gg",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "catpvp-eu",
+      "name": "CatPvP EU",
+      "ip": "eu.catpvp.net",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels",
+        "FFA"
+      ],
+      "description": "PvP · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "flaremc",
+      "name": "FlareMC",
+      "ip": "play.flaremc.org",
+      "category": "Lifesteal",
+      "tags": [
+        "Lifesteal",
+        "Survival"
+      ],
+      "description": "Lifesteal · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mineage",
+      "name": "MineAge",
+      "ip": "mineage.net",
+      "category": "Factions",
+      "tags": [
+        "Factions",
+        "HCF"
+      ],
+      "description": "Factions · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "wild-prison",
+      "name": "Wild Prison",
+      "ip": "play.wildprison.net",
+      "category": "Prison",
+      "tags": [
+        "Prison",
+        "Skyblock",
+        "Survival",
+        "Français"
+      ],
+      "description": "Prison · Français · hosted in France",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "coldgames",
+      "name": "ColdGames",
+      "ip": "coldgames.fun",
+      "category": "Lifesteal",
+      "tags": [
+        "Lifesteal",
+        "Duels"
+      ],
+      "description": "Lifesteal · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mcmanhunt",
+      "name": "McManhunt",
+      "ip": "play.mcmanhunt.com",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "tavernmc",
+      "name": "TavernMC",
+      "ip": "tavernmc.net",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "onlypvp",
+      "name": "OnlyPvP",
+      "ip": "onlypvp.pl",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Polski"
+      ],
+      "description": "PvP · Polski · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mcc-island",
+      "name": "MCC Island",
+      "ip": "play.mccisland.net",
+      "category": "Minigames",
+      "tags": [
+        "Minigames"
+      ],
+      "description": "Minigames · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "astralmc",
+      "name": "AstralMC",
+      "ip": "astralmc.cc",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Kits"
+      ],
+      "description": "PvP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "taswell-network",
+      "name": "Taswell Network",
+      "ip": "taswell.io",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
     {
       "id": "hypixel",
       "name": "Hypixel",
       "ip": "mc.hypixel.net",
       "category": "Minigames",
-      "description": "Huge minigame network: SkyBlock, Bed Wars, SkyWars and more.",
-      "website": "https://hypixel.net"
+      "tags": [
+        "Minigames",
+        "Skyblock"
+      ],
+      "description": "Minigames · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "castiamc",
+      "name": "CastiaMC",
+      "ip": "play.castiamc.com",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "pvp-land",
+      "name": "PvP Land",
+      "ip": "pvp.land",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mineshards",
+      "name": "MineShards",
+      "ip": "mineshards.com",
+      "category": "Other",
+      "tags": [
+        "Events"
+      ],
+      "description": "Other · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "lord-of-the-craft",
+      "name": "Lord of the Craft",
+      "ip": "mc.lotc.co",
+      "category": "Roleplay",
+      "tags": [
+        "Roleplay"
+      ],
+      "description": "Roleplay · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "noiraka",
+      "name": "Noiraka",
+      "ip": "play.noiraka.online",
+      "category": "Other",
+      "tags": [
+        "Русский"
+      ],
+      "description": "Other · Русский · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "saikomc",
+      "name": "SaikoMC",
+      "ip": "play.saikomc.com",
+      "category": "Prison",
+      "tags": [
+        "Prison",
+        "Survival"
+      ],
+      "description": "Prison · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "crackedpvp",
+      "name": "CrackedPvP",
+      "ip": "crackedpvp.club",
+      "category": "Survival",
+      "tags": [
+        "Survival",
+        "FFA",
+        "Practice"
+      ],
+      "description": "Survival · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "strafe",
+      "name": "Strafe",
+      "ip": "strafepvp.cc",
+      "category": "Factions",
+      "tags": [
+        "Factions",
+        "HCF"
+      ],
+      "description": "Factions · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "sololegends",
+      "name": "SoloLegends",
+      "ip": "sololegends.net",
+      "category": "Other",
+      "tags": [
+        "Español"
+      ],
+      "description": "Other · Español · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "realmi-fi",
+      "name": "Realmi.fi",
+      "ip": "realmi.fi",
+      "category": "Survival",
+      "tags": [
+        "Survival",
+        "Suomi"
+      ],
+      "description": "Survival · Suomi · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "essencemc",
+      "name": "EssenceMC",
+      "ip": "play.essencemc.net",
+      "category": "Gens",
+      "tags": [
+        "Gens"
+      ],
+      "description": "Gens · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "rinaorc",
+      "name": "Rinaorc",
+      "ip": "play.rinaorc.com",
+      "category": "Other",
+      "tags": [
+        "Français"
+      ],
+      "description": "Other · Français · hosted in France",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "minemen-club",
+      "name": "Minemen Club",
+      "ip": "minemen.club",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "meadow-smp",
+      "name": "Meadow SMP",
+      "ip": "meadowsmp.com",
+      "category": "SMP",
+      "tags": [
+        "SMP"
+      ],
+      "description": "SMP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "roleplay-hub",
+      "name": "Roleplay Hub",
+      "ip": "play.schoolrp.net",
+      "category": "Roleplay",
+      "tags": [
+        "Roleplay"
+      ],
+      "description": "Roleplay · English · hosted in United Kingdom",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "stormy-lagoon",
+      "name": "Stormy Lagoon",
+      "ip": "play.stormylagoon.com",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mustpvp-pl",
+      "name": "MustPvP.PL",
+      "ip": "mustpvp.pl",
+      "category": "Skyblock",
+      "tags": [
+        "Skyblock",
+        "Polski"
+      ],
+      "description": "Skyblock · Polski · hosted in Australia",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "hardcore-smp",
+      "name": "Hardcore SMP",
+      "ip": "hardcore-smp.com",
+      "category": "SMP",
+      "tags": [
+        "SMP",
+        "Hardcore"
+      ],
+      "description": "SMP · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "pvp-legacy",
+      "name": "PvP Legacy",
+      "ip": "play.pvplegacy.net",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels",
+        "Crystal PvP"
+      ],
+      "description": "PvP · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "hatena-server",
+      "name": "Hatena Server",
+      "ip": "mc.hatenabot.net",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels",
+        "FFA",
+        "日本語"
+      ],
+      "description": "PvP · 日本語 · hosted in Japan",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "diosesmc",
+      "name": "DiosesMC",
+      "ip": "diosesmc.net",
+      "category": "Other",
+      "tags": [
+        "Español"
+      ],
+      "description": "Other · Español · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mushmc",
+      "name": "MushMC",
+      "ip": "mushmc.com",
+      "category": "Minigames",
+      "tags": [
+        "Minigames",
+        "Skywars",
+        "Português (BR)"
+      ],
+      "description": "Minigames · Português (BR) · hosted in Brazil",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "starry-smp",
+      "name": "Starry SMP",
+      "ip": "starrymc.com",
+      "category": "SMP",
+      "tags": [
+        "SMP"
+      ],
+      "description": "SMP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "west-ffa",
+      "name": "West FFA",
+      "ip": "westffa.lol",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "FFA"
+      ],
+      "description": "PvP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "kretmc-pl",
+      "name": "KretMC.PL",
+      "ip": "kretmc.pl",
+      "category": "SMP",
+      "tags": [
+        "SMP",
+        "Polski"
+      ],
+      "description": "SMP · Polski · hosted in Poland",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "ryzenmc",
+      "name": "RyzenMC",
+      "ip": "ryzenmc.net",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels"
+      ],
+      "description": "PvP · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "bawmc",
+      "name": "BawMC",
+      "ip": "bawmc.net",
+      "category": "Other",
+      "tags": [
+        "Português (BR)"
+      ],
+      "description": "Other · Português (BR) · hosted in Brazil",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "dynamicpvp",
+      "name": "DynamicPvP",
+      "ip": "dynamicpvp.net",
+      "category": "Factions",
+      "tags": [
+        "Factions",
+        "HCF",
+        "Kits"
+      ],
+      "description": "Factions · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "bridger-land",
+      "name": "Bridger Land",
+      "ip": "bridger.land",
+      "category": "Minigames",
+      "tags": [
+        "Minigames",
+        "Bedwars",
+        "Parkour"
+      ],
+      "description": "Minigames · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "kaizenmc",
+      "name": "KaizenMC",
+      "ip": "kaizenmc.gg",
+      "category": "Other",
+      "tags": [
+        "Português (BR)"
+      ],
+      "description": "Other · Português (BR) · hosted in Brazil",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "jumpreset-network",
+      "name": "JumpReset Network",
+      "ip": "jumpreset.net",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "vexaay-nl",
+      "name": "vexaay.nl",
+      "ip": "vexaay.nl",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "FFA"
+      ],
+      "description": "PvP · English · hosted in Germany",
+      "website": "https://www.minecraft.net",
+      "locked": true
+    },
+    {
+      "id": "retro-skyblock",
+      "name": "Retro SkyBlock",
+      "ip": "retroskyblock.net",
+      "category": "Skyblock",
+      "tags": [
+        "Skyblock"
+      ],
+      "description": "Skyblock · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "oplegends",
+      "name": "OPLegends",
+      "ip": "oplegends.com",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "centrumpvp",
+      "name": "CentrumPVP",
+      "ip": "centrumpvp.pl",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Polski"
+      ],
+      "description": "PvP · Polski · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "lunarlabs",
+      "name": "LunarLabs",
+      "ip": "play.lunarlabs.fun",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "silex-pvp",
+      "name": "Silex PvP",
+      "ip": "silexpvp.com",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "swacrew-network",
+      "name": "SwaCrew Network",
+      "ip": "swacrew.net",
+      "category": "Minigames",
+      "tags": [
+        "Minigames",
+        "Events",
+        "Deutsch"
+      ],
+      "description": "Minigames · Deutsch · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "ukpvp",
+      "name": "UKPvP",
+      "ip": "ukpvp.net",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in United Kingdom",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "ghostly-network",
+      "name": "Ghostly Network",
+      "ip": "ghostly.live",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "monumenta",
+      "name": "Monumenta",
+      "ip": "server.playmonumenta.com",
+      "category": "Roleplay",
+      "tags": [
+        "Roleplay"
+      ],
+      "description": "Roleplay · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "unstable-events",
+      "name": "Unstable Events",
+      "ip": "unstableevents.net",
+      "category": "Other",
+      "tags": [
+        "Events"
+      ],
+      "description": "Other · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "toxiss",
+      "name": "Toxiss",
+      "ip": "toxiss.net",
+      "category": "Survival",
+      "tags": [
+        "Survival"
+      ],
+      "description": "Survival · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "2b2t",
+      "name": "2b2t",
+      "ip": "2b2t.org",
+      "category": "Anarchy",
+      "tags": [
+        "Anarchy"
+      ],
+      "description": "Anarchy · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "anarchy-ac",
+      "name": "Anarchy.ac",
+      "ip": "anarchy.ac",
+      "category": "Anarchy",
+      "tags": [
+        "Anarchy",
+        "Survival"
+      ],
+      "description": "Anarchy · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "exodusmc",
+      "name": "ExodusMC",
+      "ip": "exodusmc.org",
+      "category": "Prison",
+      "tags": [
+        "Prison"
+      ],
+      "description": "Prison · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "infection-network",
+      "name": "Infection Network",
+      "ip": "infection.fun",
+      "category": "Other",
+      "tags": [
+        "Español"
+      ],
+      "description": "Other · Español · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "minefox-pl",
+      "name": "MineFox.pl",
+      "ip": "hypixel.pl",
+      "category": "Roleplay",
+      "tags": [
+        "Roleplay",
+        "Polski"
+      ],
+      "description": "Roleplay · Polski · hosted in Poland",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mcplayhd",
+      "name": "McPlayHD",
+      "ip": "mcplayhd.net",
+      "category": "Minigames",
+      "tags": [
+        "Minigames"
+      ],
+      "description": "Minigames · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "fishffa",
+      "name": "FishFFA",
+      "ip": "fishffa.gg",
+      "category": "Minigames",
+      "tags": [
+        "Minigames",
+        "FFA",
+        "UHC"
+      ],
+      "description": "Minigames · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "namako",
+      "name": "Namako",
+      "ip": "play.namanko.net",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels",
+        "FFA",
+        "日本語"
+      ],
+      "description": "PvP · 日本語 · hosted in Japan",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "modernbeta",
+      "name": "ModernBeta",
+      "ip": "play.modernbeta.org",
+      "category": "Survival",
+      "tags": [
+        "Survival"
+      ],
+      "description": "Survival · English · hosted in France",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "universocraft",
+      "name": "UniversoCraft",
+      "ip": "mc.universocraft.com",
+      "category": "Other",
+      "tags": [
+        "Español"
+      ],
+      "description": "Other · Español · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "israel-practice",
+      "name": "Israel Practice",
+      "ip": "play.israelpractice.net",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Practice"
+      ],
+      "description": "PvP · English · hosted in Israel",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "6b6t",
+      "name": "6b6t",
+      "ip": "6b6t.org",
+      "category": "Anarchy",
+      "tags": [
+        "Anarchy"
+      ],
+      "description": "Anarchy · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "veqtora",
+      "name": "Veqtora",
+      "ip": "veqtora.net",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels",
+        "FFA"
+      ],
+      "description": "PvP · English · hosted in United Arab Emirates",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "coralmc",
+      "name": "CoralMC",
+      "ip": "play.coralmc.it",
+      "category": "Other",
+      "tags": [
+        "Italiano"
+      ],
+      "description": "Other · Italiano · hosted in France",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "meowmc",
+      "name": "MeowMC",
+      "ip": "meowmc.fun",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels",
+        "FFA"
+      ],
+      "description": "PvP · English · hosted in Austria",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "remiaft-network",
+      "name": "Remiaft Network",
+      "ip": "mc.remiaft.com",
+      "category": "Other",
+      "tags": [
+        "中文"
+      ],
+      "description": "Other · 中文 · hosted in China",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "flamemc",
+      "name": "FlameMC",
+      "ip": "flamemc.com.br",
+      "category": "Other",
+      "tags": [
+        "Português (BR)"
+      ],
+      "description": "Other · Português (BR) · hosted in Brazil",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "tfgames",
+      "name": "TFGames",
+      "ip": "jogar.tfgames.com.br",
+      "category": "Other",
+      "tags": [
+        "Português (BR)"
+      ],
+      "description": "Other · Português (BR) · hosted in Brazil",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mclabs",
+      "name": "MCLabs",
+      "ip": "play.labs-mc.com",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "zestianmc",
+      "name": "ZestianMC",
+      "ip": "mc.zestian.co",
+      "category": "Other",
+      "tags": [
+        "Español"
+      ],
+      "description": "Other · Español · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "oraclepvp",
+      "name": "OraclePvP",
+      "ip": "oraclepvp.net",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "greev",
+      "name": "Greev",
+      "ip": "greev.eu",
+      "category": "Minigames",
+      "tags": [
+        "Minigames"
+      ],
+      "description": "Minigames · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "hazeynetwork",
+      "name": "HaZeyNetwork",
+      "ip": "play.hazeynetwork.com",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in France",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "cheesecake-smp",
+      "name": "Cheesecake SMP",
+      "ip": "cheesecake.gg",
+      "category": "SMP",
+      "tags": [
+        "SMP"
+      ],
+      "description": "SMP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "bedwars-practice",
+      "name": "Bedwars Practice",
+      "ip": "bedwarspractice.club",
+      "category": "Minigames",
+      "tags": [
+        "Minigames",
+        "Practice",
+        "Bedwars"
+      ],
+      "description": "Minigames · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "bloodstone",
+      "name": "Bloodstone",
+      "ip": "bloodstone.boo",
+      "category": "Other",
+      "tags": [
+        "Русский"
+      ],
+      "description": "Other · Русский · hosted in Russia",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mcrybar",
+      "name": "MCRybar",
+      "ip": "mcrybar.cz",
+      "category": "Other",
+      "tags": [
+        "Čeština"
+      ],
+      "description": "Other · Čeština · hosted in Czechia",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "cisprac",
+      "name": "CisPrac",
+      "ip": "cisprac.xyz",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "FFA",
+        "Practice",
+        "Русский"
+      ],
+      "description": "PvP · Русский · hosted in Russia",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mcgamer",
+      "name": "MCGamer",
+      "ip": "mcgamer.rip",
+      "category": "Minigames",
+      "tags": [
+        "Minigames",
+        "Hunger Games"
+      ],
+      "description": "Minigames · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "hgmc-network",
+      "name": "HGMC Network",
+      "ip": "hungergames-mc.fr",
+      "category": "Minigames",
+      "tags": [
+        "Minigames",
+        "Hunger Games",
+        "Français"
+      ],
+      "description": "Minigames · Français · hosted in France",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "hugosmp",
+      "name": "HugoSMP",
+      "ip": "hugosmp.net",
+      "category": "SMP",
+      "tags": [
+        "SMP"
+      ],
+      "description": "SMP · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "hatormc",
+      "name": "HatorMC",
+      "ip": "hatormc.net",
+      "category": "Other",
+      "tags": [
+        "Español"
+      ],
+      "description": "Other · Español · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "hazelmc",
+      "name": "HazelMC",
+      "ip": "hazelmc.com",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Español"
+      ],
+      "description": "PvP · Español · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "blotcraft",
+      "name": "BlotCraft",
+      "ip": "blotcraft.com",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "zenpvp",
+      "name": "ZenPvP",
+      "ip": "zenpvp.org",
+      "category": "Factions",
+      "tags": [
+        "Factions"
+      ],
+      "description": "Factions · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "lifesteal-network",
+      "name": "Lifesteal Network",
+      "ip": "lifesteal.net",
+      "category": "Lifesteal",
+      "tags": [
+        "Lifesteal"
+      ],
+      "description": "Lifesteal · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "kig-network",
+      "name": "KIG Network",
+      "ip": "playkig.net",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "isletopiaserver",
+      "name": "IsletopiaServer",
+      "ip": "play.molean.com",
+      "category": "Other",
+      "tags": [
+        "中文"
+      ],
+      "description": "Other · 中文 · hosted in China",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "minecraftonline",
+      "name": "MinecraftOnline",
+      "ip": "minecraftonline.com",
+      "category": "Survival",
+      "tags": [
+        "Survival"
+      ],
+      "description": "Survival · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "apex",
+      "name": "Apex",
+      "ip": "play.theapex.gg",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Kits"
+      ],
+      "description": "PvP · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "kokscraft-pl",
+      "name": "KoksCraft.pl",
+      "ip": "kokscraft.pl",
+      "category": "Skyblock",
+      "tags": [
+        "Skyblock",
+        "Polski"
+      ],
+      "description": "Skyblock · Polski · hosted in Poland",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "prismamc-network",
+      "name": "PrismaMC Network",
+      "ip": "prismamc.net",
+      "category": "Other",
+      "tags": [
+        "Español"
+      ],
+      "description": "Other · Español · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "hycraft-network",
+      "name": "Hycraft Network",
+      "ip": "play.hycraft.us",
+      "category": "Other",
+      "tags": [
+        "Español"
+      ],
+      "description": "Other · Español · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "anarchia-gg",
+      "name": "Anarchia.gg",
+      "ip": "anarchia.gg",
+      "category": "Anarchy",
+      "tags": [
+        "Anarchy",
+        "Polski"
+      ],
+      "description": "Anarchy · Polski · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "ascend-network",
+      "name": "Ascend Network",
+      "ip": "play.ascendmc.net",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "hollow-cube",
+      "name": "Hollow Cube",
+      "ip": "hollowcube.net",
+      "category": "Minigames",
+      "tags": [
+        "Minigames"
+      ],
+      "description": "Minigames · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "laby-world",
+      "name": "Laby World",
+      "ip": "laby.net",
+      "category": "Social",
+      "tags": [
+        "Social"
+      ],
+      "description": "Social · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "agerapvp-club",
+      "name": "AgeraPvP Club",
+      "ip": "agerapvp.club",
+      "category": "Minigames",
+      "tags": [
+        "Minigames",
+        "Duels",
+        "Bedwars",
+        "Skywars"
+      ],
+      "description": "Minigames · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "rapy-gg",
+      "name": "Rapy.gg",
+      "ip": "rapy.gg",
+      "category": "Other",
+      "tags": [
+        "Polski"
+      ],
+      "description": "Other · Polski · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "hylex",
+      "name": "Hylex",
+      "ip": "hylex.net",
+      "category": "Other",
+      "tags": [
+        "Português (BR)"
+      ],
+      "description": "Other · Português (BR) · hosted in Brazil",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "armorstand",
+      "name": "ArmorStand",
+      "ip": "armorstand.net",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Practice"
+      ],
+      "description": "PvP · English · hosted in Singapore",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "balacobaco",
+      "name": "Balacobaco",
+      "ip": "balacobaco.net",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "FFA",
+        "Português (BR)"
+      ],
+      "description": "PvP · Português (BR) · hosted in Brazil",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "pvp-ceo",
+      "name": "PVP.CEO",
+      "ip": "pvp.ceo",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "holyhcf",
+      "name": "HolyHCF",
+      "ip": "holypvp.net",
+      "category": "Factions",
+      "tags": [
+        "Factions",
+        "HCF"
+      ],
+      "description": "Factions · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "centralpvp-network",
+      "name": "CentralPvP Network",
+      "ip": "centralpvp.net",
+      "category": "Survival",
+      "tags": [
+        "Survival",
+        "Practice"
+      ],
+      "description": "Survival · English · hosted in Netherlands",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "poolcraft-pl",
+      "name": "Poolcraft.pl",
+      "ip": "poolcraft.pl",
+      "category": "Other",
+      "tags": [
+        "Polski"
+      ],
+      "description": "Other · Polski · hosted in Australia",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "2p1j",
+      "name": "2p1j",
+      "ip": "2p1j.org",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "potpvp",
+      "name": "PotPvP",
+      "ip": "potpvp.org",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "pixelmc",
+      "name": "PixelMC",
+      "ip": "pixel-mc.net",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Practice",
+        "Français"
+      ],
+      "description": "PvP · Français · hosted in France",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "trpvp",
+      "name": "TRPvP",
+      "ip": "trpvp.club",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels",
+        "FFA",
+        "Türkçe"
+      ],
+      "description": "PvP · Türkçe · hosted in Turkey",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "alterprac-ht-1",
+      "name": "AlterPrac HT-1",
+      "ip": "ht-1.ru",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Practice",
+        "Русский"
+      ],
+      "description": "PvP · Русский · hosted in Russia",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "quadflame",
+      "name": "QuadFlame",
+      "ip": "mc.quadflame.com",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in Australia",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "dmc",
+      "name": "DMC",
+      "ip": "dmc-minecraft.net",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "overcast-community",
+      "name": "Overcast Community",
+      "ip": "oc.tc",
+      "category": "Minigames",
+      "tags": [
+        "Minigames"
+      ],
+      "description": "Minigames · English",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "drakense",
+      "name": "Drakense",
+      "ip": "drakense.top",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "FFA",
+        "Español"
+      ],
+      "description": "PvP · Español · hosted in Chile",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "warship",
+      "name": "Warship",
+      "ip": "warship.gg",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in France",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "speed-vanilla",
+      "name": "Speed Vanilla",
+      "ip": "speedvanilla.net",
+      "category": "Survival",
+      "tags": [
+        "Survival"
+      ],
+      "description": "Survival · English · hosted in Netherlands",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "cylone-network",
+      "name": "Cylone Network",
+      "ip": "cylonemc.net",
+      "category": "Other",
+      "tags": [
+        "Parkour"
+      ],
+      "description": "Other · English · hosted in United Kingdom",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "zetrexmc",
+      "name": "ZetrexMC",
+      "ip": "zetrex.net",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "gommehd",
+      "name": "GommeHD",
+      "ip": "mc.gommehd.net",
+      "category": "Minigames",
+      "tags": [
+        "Minigames",
+        "Deutsch"
+      ],
+      "description": "Minigames · Deutsch · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "cartprac",
+      "name": "CartPrac",
+      "ip": "cartprac.net",
+      "category": "Minigames",
+      "tags": [
+        "Minigames",
+        "Practice"
+      ],
+      "description": "Minigames · English · hosted in France",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "metalmc",
+      "name": "MetalMC",
+      "ip": "eu.metalmc.vip",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels",
+        "FFA"
+      ],
+      "description": "PvP · English · hosted in Netherlands",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "flamesmp",
+      "name": "FlameSMP",
+      "ip": "flamefrags.com",
+      "category": "SMP",
+      "tags": [
+        "SMP",
+        "Duels",
+        "Survival"
+      ],
+      "description": "SMP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "qsmp-live",
+      "name": "QSMP Live",
+      "ip": "play.qsmp.live",
+      "category": "SMP",
+      "tags": [
+        "SMP"
+      ],
+      "description": "SMP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "minergames",
+      "name": "MinerGames",
+      "ip": "minergames.net",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels"
+      ],
+      "description": "PvP · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "astrum",
+      "name": "Astrum",
+      "ip": "astrummc.su",
+      "category": "Other",
+      "tags": [
+        "Русский"
+      ],
+      "description": "Other · Русский · hosted in Russia",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "evatablepvp",
+      "name": "EvaTablePvP",
+      "ip": "evatablepvp.ru",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Русский"
+      ],
+      "description": "PvP · Русский · hosted in Russia",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "smp-prac",
+      "name": "SMP Prac",
+      "ip": "smpprac.xyz",
+      "category": "SMP",
+      "tags": [
+        "SMP",
+        "Practice"
+      ],
+      "description": "SMP · English · hosted in France",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "topstrix",
+      "name": "TopStrix",
+      "ip": "play.topstrix.net",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "pixel-craft",
+      "name": "Pixel Craft",
+      "ip": "pixel-craft.ru",
+      "category": "Other",
+      "tags": [
+        "Русский"
+      ],
+      "description": "Other · Русский · hosted in Russia",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "sparkane",
+      "name": "Sparkane",
+      "ip": "sparkane.com",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "revage",
+      "name": "Revage",
+      "ip": "revage.net",
+      "category": "Other",
+      "tags": [
+        "Русский"
+      ],
+      "description": "Other · Русский · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "minelucky",
+      "name": "MineLucky",
+      "ip": "mc.minelucky.net",
+      "category": "Prison",
+      "tags": [
+        "Prison"
+      ],
+      "description": "Prison · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "beeblocky",
+      "name": "BeeBlocky",
+      "ip": "play.beeblocky.com",
+      "category": "Survival",
+      "tags": [
+        "Survival"
+      ],
+      "description": "Survival · English · hosted in France",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "uhc-world",
+      "name": "UHC World",
+      "ip": "mc.uhcworld.fr",
+      "category": "Minigames",
+      "tags": [
+        "Minigames",
+        "UHC",
+        "Français"
+      ],
+      "description": "Minigames · Français · hosted in France",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "marsmc",
+      "name": "MarsMC",
+      "ip": "play.marsmc.net",
+      "category": "Prison",
+      "tags": [
+        "Prison"
+      ],
+      "description": "Prison · English · hosted in France",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "rede-screen",
+      "name": "Rede Screen",
+      "ip": "redescreen.com",
+      "category": "Other",
+      "tags": [
+        "Português (BR)"
+      ],
+      "description": "Other · Português (BR) · hosted in Brazil",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "frosthex",
+      "name": "FrostHex",
+      "ip": "frosthex.com",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "anarchy-ae",
+      "name": "Anarchy.ae",
+      "ip": "anarchy.ae",
+      "category": "Anarchy",
+      "tags": [
+        "Anarchy"
+      ],
+      "description": "Anarchy · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "elyoyo-network",
+      "name": "ElYoyo Network",
+      "ip": "elyoyo.com",
+      "category": "Minigames",
+      "tags": [
+        "Minigames",
+        "Skywars",
+        "Kits"
+      ],
+      "description": "Minigames · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "cubecraft",
+      "name": "CubeCraft",
+      "ip": "cubecraftgames.net",
+      "category": "Minigames",
+      "tags": [
+        "Minigames"
+      ],
+      "description": "Minigames · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "minekeep",
+      "name": "MineKeep",
+      "ip": "minekeep.net",
+      "category": "Hosting",
+      "tags": [
+        "Hosting"
+      ],
+      "description": "Hosting · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "3c3u",
+      "name": "3c3u",
+      "ip": "3c3u.org",
+      "category": "Other",
+      "tags": [
+        "中文"
+      ],
+      "description": "Other · 中文 · hosted in China",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "cherryblock",
+      "name": "CherryBlock",
+      "ip": "cherryblock.org",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "the-archive",
+      "name": "The Archive",
+      "ip": "thearchive.world",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "heldeninsel",
+      "name": "Heldeninsel",
+      "ip": "heldeninsel.net",
+      "category": "Other",
+      "tags": [
+        "Deutsch"
+      ],
+      "description": "Other · Deutsch · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "crystalranked",
+      "name": "CrystalRanked",
+      "ip": "crystalranked.org",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Crystal PvP"
+      ],
+      "description": "PvP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "fable-smp",
+      "name": "Fable SMP",
+      "ip": "fablesmp.xyz",
+      "category": "SMP",
+      "tags": [
+        "SMP",
+        "Türkçe"
+      ],
+      "description": "SMP · Türkçe · hosted in Turkey",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "minepvp",
+      "name": "MinePvP",
+      "ip": "minepvp.club",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "spexce",
+      "name": "Spexce",
+      "ip": "play.spexce.net",
+      "category": "Other",
+      "tags": [
+        "Other"
+      ],
+      "description": "Other · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "redishsmp",
+      "name": "RedishSMP",
+      "ip": "redishsmp.net",
+      "category": "SMP",
+      "tags": [
+        "SMP",
+        "Survival"
+      ],
+      "description": "SMP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "betamc",
+      "name": "BetaMC",
+      "ip": "betamc.org",
+      "category": "Survival",
+      "tags": [
+        "Survival"
+      ],
+      "description": "Survival · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "aormio-network",
+      "name": "Aormio Network",
+      "ip": "mc.aormio.ru",
+      "category": "Anarchy",
+      "tags": [
+        "Anarchy",
+        "Duels",
+        "Русский"
+      ],
+      "description": "Anarchy · Русский · hosted in Russia",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "axora-network",
+      "name": "Axora Network",
+      "ip": "rankedbw.com",
+      "category": "Minigames",
+      "tags": [
+        "Minigames",
+        "Bedwars"
+      ],
+      "description": "Minigames · English · hosted in Singapore",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "pikanetwork",
+      "name": "PikaNetwork",
+      "ip": "pikanetwork.net",
+      "category": "Skyblock",
+      "tags": [
+        "Skyblock"
+      ],
+      "description": "Skyblock · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "school-days-roleplay",
+      "name": "School Days Roleplay",
+      "ip": "schooldays.club",
+      "category": "Roleplay",
+      "tags": [
+        "Roleplay"
+      ],
+      "description": "Roleplay · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "bullcraft",
+      "name": "BullCraft",
+      "ip": "mc.bullcraft.ru",
+      "category": "Other",
+      "tags": [
+        "Русский"
+      ],
+      "description": "Other · Русский · hosted in Russia",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "spm",
+      "name": "SPm",
+      "ip": "spm.spworlds.org",
+      "category": "Other",
+      "tags": [
+        "Русский"
+      ],
+      "description": "Other · Русский · hosted in Germany",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "origin-realms",
+      "name": "Origin Realms",
+      "ip": "play.originrealms.com",
+      "category": "Survival",
+      "tags": [
+        "Survival"
+      ],
+      "description": "Survival · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "minehut",
+      "name": "Minehut",
+      "ip": "minehut.com",
+      "category": "Hosting",
+      "tags": [
+        "Hosting"
+      ],
+      "description": "Hosting · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "legacy-minigames",
+      "name": "Legacy Minigames",
+      "ip": "legacyminigames.net",
+      "category": "Minigames",
+      "tags": [
+        "Minigames"
+      ],
+      "description": "Minigames · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "masivo-smp",
+      "name": "Masivo SMP",
+      "ip": "masivo.gg",
+      "category": "SMP",
+      "tags": [
+        "SMP"
+      ],
+      "description": "SMP · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "scrims-network",
+      "name": "Scrims Network",
+      "ip": "scrims.network",
+      "category": "Minigames",
+      "tags": [
+        "Minigames"
+      ],
+      "description": "Minigames · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "celestialpvp",
+      "name": "CelestialPvP",
+      "ip": "play.celestialpvp.net",
+      "category": "PvP",
+      "tags": [
+        "PvP"
+      ],
+      "description": "PvP · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "onlysword",
+      "name": "OnlySword",
+      "ip": "onlysword.xyz",
+      "category": "PvP",
+      "tags": [
+        "PvP",
+        "Duels",
+        "FFA"
+      ],
+      "description": "PvP · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mixelpixel",
+      "name": "MixelPixel",
+      "ip": "mixelpixel.net",
+      "category": "Other",
+      "tags": [
+        "Deutsch"
+      ],
+      "description": "Other · Deutsch · hosted in Germany",
+      "website": "https://www.minecraft.net"
     },
     {
       "id": "wynncraft",
       "name": "Wynncraft",
       "ip": "play.wynncraft.com",
-      "category": "RPG",
-      "description": "Massive custom RPG MMO built on Minecraft.",
-      "website": "https://wynncraft.com"
+      "category": "Roleplay",
+      "tags": [
+        "Roleplay"
+      ],
+      "description": "Roleplay · English · hosted in United States",
+      "website": "https://www.minecraft.net"
     },
     {
-      "id": "cubecraft",
-      "name": "CubeCraft",
-      "ip": "play.cubecraft.net",
+      "id": "diosesmon",
+      "name": "DiosesMon",
+      "ip": "diosesmon.net",
+      "category": "Pixelmon",
+      "tags": [
+        "Pixelmon",
+        "Español"
+      ],
+      "description": "Pixelmon · Español · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "faeries-smp",
+      "name": "Faeries SMP",
+      "ip": "faeriessmp.com",
+      "category": "SMP",
+      "tags": [
+        "SMP"
+      ],
+      "description": "SMP · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "swordmc",
+      "name": "SwordMC",
+      "ip": "sword.mc.gg",
+      "category": "Survival",
+      "tags": [
+        "Survival",
+        "Duels",
+        "Events"
+      ],
+      "description": "Survival · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "minepeak",
+      "name": "MinePeak",
+      "ip": "mc.minepeak.org",
+      "category": "Survival",
+      "tags": [
+        "Survival",
+        "Duels",
+        "Bedwars",
+        "Lifesteal"
+      ],
+      "description": "Survival · English · hosted in Canada",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "manacube",
+      "name": "ManaCube",
+      "ip": "play.manacube.com",
+      "category": "Survival",
+      "tags": [
+        "Survival",
+        "Skyblock"
+      ],
+      "description": "Survival · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "jartexnetwork",
+      "name": "JartexNetwork",
+      "ip": "play.jartexnetwork.com",
+      "category": "Factions",
+      "tags": [
+        "Factions",
+        "Practice",
+        "Bedwars",
+        "Skyblock"
+      ],
+      "description": "Factions · English · hosted in United States",
+      "website": "https://www.minecraft.net"
+    },
+    {
+      "id": "mineland",
+      "name": "Mineland",
+      "ip": "join.mineland.net",
       "category": "Minigames",
-      "description": "Minigame network: Eggwars, Skywars and more.",
-      "website": "https://www.cubecraft.net"
+      "tags": [
+        "Minigames"
+      ],
+      "description": "Minigames · English · hosted in United States",
+      "website": "https://www.minecraft.net"
     }
   ]
 }

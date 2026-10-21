@@ -1,5 +1,6 @@
 package com.serverbrowser.data;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -21,8 +22,10 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -54,6 +57,7 @@ public final class ServerPinger {
 			pool = Executors.newFixedThreadPool(ModConfig.get().maxConcurrentPings, r -> {
 				Thread t = new Thread(r, "ServerBrowser-Ping-" + n.incrementAndGet());
 				t.setDaemon(true);
+				t.setPriority(Thread.NORM_PRIORITY - 1); // pinging never competes with the game
 				return t;
 			});
 		}
@@ -65,7 +69,7 @@ public final class ServerPinger {
 	 * and queued pings are dropped if the batch is cancelled (page changed, screen closed).
 	 */
 	public static void request(List<ServerEntry> entries, Batch batch, Runnable onUpdate) {
-		long maxAgeMs = ModConfig.get().pingCacheSeconds * 1000L;
+		long maxAgeMs = ModConfig.get().statusCacheMinutes * 60_000L;
 		long now = System.currentTimeMillis();
 		for (ServerEntry entry : entries) {
 			if (entry.inFlight) continue;
@@ -77,6 +81,7 @@ public final class ServerPinger {
 				if (batch.cancelled) {
 					entry.inFlight = false;
 					if (entry.state == ServerEntry.State.PINGING) entry.state = ServerEntry.State.IDLE;
+					onUpdate.run(); // lets the screen queue this server again if it is still wanted
 					return;
 				}
 				try {
@@ -144,6 +149,7 @@ public final class ServerPinger {
 				}
 
 				applyStatus(e, new String(json, StandardCharsets.UTF_8), pingMs);
+				PingCache.store(e);
 			}
 		} catch (Exception ex) {
 			e.lastPingMs = System.currentTimeMillis();
@@ -151,6 +157,7 @@ public final class ServerPinger {
 			e.online = -1;
 			e.max = -1;
 			e.pingMs = -1;
+			PingCache.store(e);
 		}
 	}
 
@@ -176,6 +183,17 @@ public final class ServerPinger {
 			} catch (IllegalArgumentException ignored) {
 			}
 		}
+
+		// Forge / NeoForge servers announce their mods in the ping. Fabric servers do not.
+		Set<String> mods = new HashSet<>();
+		if (obj(root, "forgeData").get("mods") instanceof JsonArray list) {
+			for (JsonElement m : list) addModId(m, "modId", mods);
+		}
+		if (obj(root, "modinfo").get("modList") instanceof JsonArray list) {
+			for (JsonElement m : list) addModId(m, "modid", mods);
+		}
+		e.pingMods = Set.copyOf(mods);
+		Mods.refresh(e);
 
 		e.online = Math.max(0, num(players, "online"));
 		e.max = Math.max(0, num(players, "max"));
@@ -293,6 +311,12 @@ public final class ServerPinger {
 	private static JsonObject obj(JsonObject o, String key) {
 		JsonElement e = o.get(key);
 		return (e != null && e.isJsonObject()) ? e.getAsJsonObject() : new JsonObject();
+	}
+
+	private static void addModId(JsonElement m, String key, Set<String> into) {
+		if (!m.isJsonObject()) return;
+		JsonElement id = m.getAsJsonObject().get(key);
+		if (id != null && id.isJsonPrimitive() && into.size() < 500) into.add(clip(id.getAsString(), 64));
 	}
 
 	private static int num(JsonObject o, String key) {

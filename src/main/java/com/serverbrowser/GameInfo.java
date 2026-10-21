@@ -15,6 +15,19 @@ public final class GameInfo {
 				.orElse("unknown");
 	}
 
+	/** {name, address} of the multiplayer server the player is on, or null (singleplayer, LAN, unknown). */
+	public static String[] currentServer(net.minecraft.client.Minecraft mc) {
+		try {
+			Object data = net.minecraft.client.Minecraft.class.getMethod("getCurrentServer").invoke(mc);
+			if (data instanceof net.minecraft.client.multiplayer.ServerData server && server.ip != null && !server.ip.isBlank()) {
+				return new String[]{server.name == null ? "" : server.name, server.ip};
+			}
+		} catch (Throwable t) {
+			ServerBrowserClient.LOGGER.debug("Could not read the current server", t);
+		}
+		return null;
+	}
+
 	/** Current client protocol number, or -1 if it cannot be determined. Looked up reflectively so a rename never breaks the build. */
 	public static synchronized int protocol() {
 		if (protocol != Integer.MIN_VALUE) return protocol;

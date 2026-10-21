@@ -1,6 +1,8 @@
 package com.serverbrowser;
 
 import com.serverbrowser.config.Favorites;
+import com.serverbrowser.config.History;
+import com.serverbrowser.data.PingCache;
 import com.serverbrowser.config.ModConfig;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
@@ -16,6 +18,9 @@ public class ServerBrowserClient implements ClientModInitializer {
 		ModConfig.load();
 		Lang.load();
 		Favorites.load();
+		History.load();
+		PingCache.loadAsync();
+		HistoryTracker.register();
 		ScreenEvents.AFTER_INIT.register(ButtonInjector::onScreenInit);
 		LOGGER.info("Server Browser loaded (game {}, protocol {})", GameInfo.gameVersion(), GameInfo.protocol());
 	}

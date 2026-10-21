@@ -24,7 +24,10 @@ public final class ModConfig {
 	/** "auto" follows Minecraft's language; otherwise a language pack code such as de_de. */
 	public String language = "auto";
 	public int pageSize = 10;
-	public int pingCacheSeconds = 60;
+	/** How long a server's status (players, MOTD, icon) is reused before it is checked again. */
+	public int statusCacheMinutes = 5;
+	/** How many recently joined servers are remembered (20 to 50). */
+	public int historySize = 50;
 
 	public static ModConfig get() {
 		return instance;
@@ -80,6 +83,7 @@ public final class ModConfig {
 		maxConcurrentPings = Math.max(1, Math.min(32, maxConcurrentPings));
 		language = (language == null || language.isBlank()) ? "auto" : language.trim().toLowerCase(java.util.Locale.ROOT);
 		pageSize = Math.max(3, Math.min(50, pageSize));
-		pingCacheSeconds = Math.max(10, Math.min(3600, pingCacheSeconds));
+		statusCacheMinutes = Math.max(1, Math.min(60, statusCacheMinutes));
+		historySize = Math.max(20, Math.min(50, historySize));
 	}
 }

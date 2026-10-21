@@ -85,6 +85,13 @@ public final class Lang {
 		return map;
 	}
 
+	/** The locale to use for dates: the mod's chosen language, or the system's if it follows the game. */
+	public static Locale locale() {
+		String code = ModConfig.get().language;
+		if (AUTO.equals(code) || code.length() < 2) return Locale.getDefault();
+		return Locale.forLanguageTag(code.replace('_', '-'));
+	}
+
 	/** "auto" followed by every available language code. */
 	public static List<String> codes() {
 		List<String> out = new ArrayList<>();

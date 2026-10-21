@@ -38,7 +38,31 @@ public final class ServerListFetcher {
 
 	private ServerListFetcher() {}
 
+	private static volatile Result memory;
+	private static volatile long memoryAt;
+	private static volatile String memoryUrl = "";
+
+	/** The list loaded earlier in this session, if it is still fresh. Lets the browser open instantly. */
+	public static Result peekFresh() {
+		Result r = memory;
+		if (r == null) return null;
+		ModConfig cfg = ModConfig.get();
+		if (!memoryUrl.equals(cfg.listUrl)) return null;
+		if (System.currentTimeMillis() - memoryAt > cfg.cacheMinutes * 60_000L) return null;
+		return r;
+	}
+
 	public static Result load(boolean force) {
+		Result r = loadUncached(force);
+		if (!r.servers().isEmpty()) {
+			memory = r;
+			memoryAt = System.currentTimeMillis();
+			memoryUrl = ModConfig.get().listUrl;
+		}
+		return r;
+	}
+
+	private static Result loadUncached(boolean force) {
 		ModConfig cfg = ModConfig.get();
 		Path cache = ModConfig.dir().resolve("servers_cache.json");
 
@@ -133,10 +157,50 @@ public final class ServerListFetcher {
 			String category = clean(str(o, "category"), 32);
 			String description = clean(str(o, "description"), 160);
 			String website = clean(str(o, "website"), 200);
-			out.add(new ServerEntry(id.isEmpty() ? name : id, name, ip,
-					category.isEmpty() ? "Other" : category, description, website));
+			String cat = category.isEmpty() ? "Other" : category;
+			List<String> tags = tags(o, cat);
+			boolean locked = flag(o, "locked") || flag(o, "whitelist") || flag(o, "whitelisted") || flag(o, "password");
+			List<String> mods = stringList(o.has("requiredMods") ? o.get("requiredMods") : o.get("mods"), 20, 64);
+			ServerEntry entry = new ServerEntry(id.isEmpty() ? name : id, name, ip, cat, description, website,
+					tags, locked, mods);
+			Mods.refresh(entry);
+			out.add(entry);
 		}
 		return out;
+	}
+
+	/** "tags": ["Roleplay", "Sandbox"]. Without tags, the category is used so the tag filter always has something to show. */
+	private static List<String> tags(JsonObject o, String category) {
+		List<String> tags = stringList(o.get("tags"), 8, 24);
+		if (tags.isEmpty()) tags = List.of(category);
+		return tags;
+	}
+
+	private static List<String> stringList(JsonElement el, int maxItems, int maxLen) {
+		List<String> out = new ArrayList<>();
+		if (el == null || el.isJsonNull()) return out;
+		if (el.isJsonArray()) {
+			for (JsonElement x : el.getAsJsonArray()) {
+				if (out.size() >= maxItems) break;
+				if (x.isJsonPrimitive()) addClean(out, x.getAsString(), maxLen);
+			}
+		} else if (el.isJsonPrimitive()) {
+			for (String part : el.getAsString().split(",")) {
+				if (out.size() >= maxItems) break;
+				addClean(out, part, maxLen);
+			}
+		}
+		return out;
+	}
+
+	private static void addClean(List<String> out, String raw, int maxLen) {
+		String t = clean(raw, maxLen);
+		if (!t.isEmpty() && out.stream().noneMatch(x -> x.equalsIgnoreCase(t))) out.add(t);
+	}
+
+	private static boolean flag(JsonObject o, String key) {
+		JsonElement e = o.get(key);
+		return e != null && e.isJsonPrimitive() && e.getAsJsonPrimitive().isBoolean() && e.getAsBoolean();
 	}
 
 	private static boolean validAddress(String ip) {
